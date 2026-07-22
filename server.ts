@@ -4,17 +4,7 @@ import express from 'express';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import bootstrap from './src/main.server';
-import { neon } from '@neondatabase/serverless';
-
-let _sql: ReturnType<typeof neon> | null = null;
-function getDb() {
-  if (!_sql) {
-    const url = process.env['DATABASE_URL'];
-    if (!url) throw new Error('DATABASE_URL environment variable is not set');
-    _sql = neon(url);
-  }
-  return _sql;
-}
+import { getDb, isNonEmptyString, validateResultPayload, toCsv } from './api/_lib/db';
 
 // ── Rate limiting (in-memory, per IP) ─────────────────────────────────────────
 
@@ -39,89 +29,6 @@ function rateLimit(limit: number, windowMs: number): express.RequestHandler {
     }
     next();
   };
-}
-
-// ── Payload validation ────────────────────────────────────────────────────────
-
-const SESSION_IDS = ['Uvodna sesija', 'Sesija 1', 'Sesija 2'];
-
-function isNonEmptyString(v: unknown, max: number): v is string {
-  return typeof v === 'string' && v.trim().length > 0 && v.length <= max;
-}
-function isScaleValue(v: unknown): v is number {
-  return typeof v === 'number' && Number.isInteger(v) && v >= 0 && v <= 100;
-}
-function isWeight(v: unknown): boolean {
-  return v === null || (typeof v === 'number' && Number.isInteger(v) && v >= 0 && v <= 5);
-}
-function isScore(v: unknown): boolean {
-  return v === null || (typeof v === 'number' && Number.isFinite(v) && v >= 0 && v <= 100);
-}
-function isDuration(v: unknown): boolean {
-  return v === null || (typeof v === 'number' && Number.isInteger(v) && v >= 0 && v <= 999999);
-}
-
-function validateResultPayload(b: unknown): string | null {
-  if (typeof b !== 'object' || b === null) return 'body must be an object';
-  const p = b as Record<string, unknown>;
-
-  if (!isNonEmptyString(p['participantId'], 50)) return 'participantId invalid';
-  if (!isNonEmptyString(p['sessionId'], 50) || !SESSION_IDS.includes(p['sessionId'] as string)) {
-    return 'sessionId invalid';
-  }
-  if (!isNonEmptyString(p['language'], 5)) return 'language invalid';
-
-  const scaleFields = ['mentalDemand', 'physicalDemand', 'temporalDemand', 'performance', 'effort', 'frustration'];
-  for (const f of scaleFields) {
-    if (!isScaleValue(p[f])) return `${f} must be an integer 0-100`;
-  }
-
-  const weightFields = ['weightMental', 'weightPhysical', 'weightTemporal', 'weightPerf', 'weightEffort', 'weightFrust'];
-  for (const f of weightFields) {
-    if (!isWeight(p[f])) return `${f} must be null or an integer 0-5`;
-  }
-  const weights = weightFields.map(f => p[f]);
-  if (weights.every(w => w !== null)) {
-    const sum = (weights as number[]).reduce((a, b) => a + b, 0);
-    if (sum !== 15) return 'weights must sum to 15';
-  } else if (weights.some(w => w !== null)) {
-    return 'weights must be all set or all null';
-  }
-
-  if (!isScore(p['rawTLX'])) return 'rawTLX must be null or a number 0-100';
-  if (!isScore(p['weightedTLX'])) return 'weightedTLX must be null or a number 0-100';
-  if (typeof p['configScores'] !== 'boolean') return 'configScores must be boolean';
-  if (typeof p['configWeightings'] !== 'boolean') return 'configWeightings must be boolean';
-
-  for (const f of ['durationTotalSec', 'durationScalesSec', 'durationComparisonsSec']) {
-    if (!isDuration(p[f])) return `${f} must be null or a non-negative integer`;
-  }
-
-  return null;
-}
-
-// ── CSV export ────────────────────────────────────────────────────────────────
-
-const CSV_COLUMNS = [
-  'Id', 'ParticipantId', 'SessionId', 'CompletedAt', 'Language',
-  'MentalDemand', 'PhysicalDemand', 'TemporalDemand', 'Performance', 'Effort', 'Frustration',
-  'WeightMental', 'WeightPhysical', 'WeightTemporal', 'WeightPerf', 'WeightEffort', 'WeightFrust',
-  'RawTLX', 'WeightedTLX', 'ConfigScores', 'ConfigWeightings',
-  'DurationTotalSec', 'DurationScalesSec', 'DurationComparisonsSec',
-];
-
-function csvCell(value: unknown): string {
-  if (value === null || value === undefined) return '';
-  const s = value instanceof Date ? value.toISOString() : String(value);
-  return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
-}
-
-function toCsv(rows: Record<string, unknown>[]): string {
-  const lines = [CSV_COLUMNS.join(',')];
-  for (const row of rows) {
-    lines.push(CSV_COLUMNS.map(c => csvCell(row[c])).join(','));
-  }
-  return lines.join('\r\n') + '\r\n';
 }
 
 export function app(): express.Express {

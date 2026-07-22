@@ -5,7 +5,7 @@ import { SessionId } from '../services/tlx-state.service';
  * BeyondAI hands participants off to `/start?participantId=…&sessionId=…&lang=…`;
  * after the TLX result is saved the participant is sent back to the BeyondAI login.
  */
-export const BEYONDAI_URL = 'http://localhost:4202';
+export const BEYONDAI_URL = 'https://beyondai-code-review.vercel.app';
 
 /** sessionStorage key holding the language chosen at BeyondAI login (locked for the whole run). */
 export const TLX_LANG_KEY = 'tlx-lang';
