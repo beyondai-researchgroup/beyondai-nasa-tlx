@@ -1,0 +1,48 @@
+<div class="page-centered">
+  <div class="comparisons-container">
+
+    <header class="comp-header">
+      <h1 class="comp-title">{{ 'COMPARISONS.TITLE' | translate }}</h1>
+      <p class="comp-question">{{ 'COMPARISONS.QUESTION' | translate }}</p>
+      <div class="comp-progress-row">
+        <span class="comp-counter">{{ currentIndex() + 1 }} / {{ total }}</span>
+        <div class="progress-bar" style="flex: 1">
+          <div class="progress-fill" [style.width.%]="progressPct"></div>
+        </div>
+      </div>
+    </header>
+
+    @if (current) {
+      <div class="pair-grid" [class.selecting]="selecting()">
+        <button
+          type="button"
+          class="choice-panel"
+          (click)="choose(current.a.name)"
+          [disabled]="selecting()"
+        >
+          <span class="choice-name">{{ current.a.nameKey | translate }}</span>
+          <p class="choice-desc">{{ current.a.descKey | translate }}</p>
+        </button>
+
+        <div class="pair-vs">{{ 'COMPARISONS.OR' | translate }}</div>
+
+        <button
+          type="button"
+          class="choice-panel"
+          (click)="choose(current.b.name)"
+          [disabled]="selecting()"
+        >
+          <span class="choice-name">{{ current.b.nameKey | translate }}</span>
+          <p class="choice-desc">{{ current.b.descKey | translate }}</p>
+        </button>
+      </div>
+    }
+
+    <div class="comp-footer">
+      <button type="button" class="btn-ghost" (click)="goBack()" [disabled]="selecting()">
+        {{ 'COMPARISONS.BACK' | translate }}
+      </button>
+    </div>
+
+  </div>
+</div>

@@ -30,6 +30,7 @@
               "src/assets"
             ],
             "styles": [
+              "src/theme.scss",
               "src/styles.scss"
             ],
             "scripts": [],
@@ -49,8 +50,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
                 }
               ],
               "outputHashing": "all"
@@ -65,6 +66,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "proxyConfig": "src/proxy.conf.json"
+          },
           "configurations": {
             "production": {
               "buildTarget": "Nasa-TLX-FullImplementation-AndrejKatin:build:production"
@@ -95,6 +99,7 @@
               "src/assets"
             ],
             "styles": [
+              "src/theme.scss",
               "src/styles.scss"
             ],
             "scripts": []
@@ -102,5 +107,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "4808c8dc-ca55-44b7-9cb6-8615402f7d5a"
   }
 }

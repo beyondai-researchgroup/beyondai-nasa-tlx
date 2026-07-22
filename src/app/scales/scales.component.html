@@ -1,0 +1,71 @@
+<div class="page-wrapper">
+  <div class="scales-container">
+
+    <header class="scales-header">
+      <h1 class="scales-title">{{ 'SCALES_PAGE.TITLE' | translate }}</h1>
+      <p class="scales-lead">{{ 'SCALES_PAGE.LEAD' | translate }}</p>
+    </header>
+
+    <div class="scales-list">
+      @for (scale of scaleConfigs; track scale.key) {
+        <div class="scale-row card">
+
+          <div class="scale-top">
+            <div class="scale-meta">
+              <h3 class="scale-name">{{ scale.nameKey | translate }}</h3>
+              <p class="scale-desc">{{ scale.descKey | translate }}</p>
+            </div>
+            <div class="scale-value-badge">
+              <span class="scale-value">{{ values()[scale.key] }}</span>
+            </div>
+          </div>
+
+          <div class="slider-wrapper">
+            <input
+              type="range"
+              class="tlx-slider"
+              min="0"
+              max="100"
+              step="5"
+              [value]="nativeValue(scale)"
+              [attr.aria-label]="scale.nameKey | translate"
+              (input)="onSliderChange(scale, $event)"
+              [style]="'--fill:' + fillPercent(nativeValue(scale))"
+            />
+            <div class="slider-labels">
+              @if (scale.inverted) {
+                <span class="label-low">{{ scale.labelHighKey | translate }}</span>
+                <span class="label-high">{{ scale.labelLowKey | translate }}</span>
+              } @else {
+                <span class="label-low">{{ scale.labelLowKey | translate }}</span>
+                <span class="label-high">{{ scale.labelHighKey | translate }}</span>
+              }
+            </div>
+          </div>
+
+        </div>
+      }
+    </div>
+
+    <div class="scales-footer">
+      <button type="button" class="btn-ghost" (click)="goBack()">
+        {{ 'SCALES_PAGE.BACK' | translate }}
+      </button>
+      <div class="scales-footer-next">
+        @if (!allTouched()) {
+          <span class="touch-hint">
+            {{ 'SCALES_PAGE.TOUCH_HINT' | translate: { count: touchedCount() } }}
+          </span>
+        }
+        <button type="button" class="btn-ghost" [disabled]="!allTouched()" (click)="submit()">
+          @if (includeWeightings) {
+            {{ 'SCALES_PAGE.NEXT_COMPARE' | translate }}
+          } @else {
+            {{ 'SCALES_PAGE.FINISH' | translate }}
+          }
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,139 @@
+.login-container {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.login-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.login-title {
+  font-family: 'Space Grotesk', var(--font-display);
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.login-subtitle {
+  font-size: 18px;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+.login-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.field-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+}
+
+.session-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.session-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 8px;
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+
+  &:hover {
+    border-color: var(--color-accent-dim);
+  }
+
+  &--active {
+    border-color: var(--color-accent);
+    background: rgba(var(--color-accent-rgb), 0.05);
+
+    .session-icon { color: var(--color-accent); }
+    .session-name { color: var(--color-accent); }
+  }
+}
+
+.session-icon {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-muted);
+  transition: color var(--transition-fast);
+}
+
+.session-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text);
+  text-align: center;
+  transition: color var(--transition-fast);
+}
+
+.text-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: 15px;
+  outline: none;
+  transition: border-color var(--transition-fast);
+
+  &::placeholder { color: var(--color-muted); }
+
+  &:focus { border-color: var(--color-accent); }
+}
+
+.field-error {
+  font-size: 12px;
+  color: var(--color-error);
+}
+
+.advanced-section {
+  border-top: 1px solid var(--color-border);
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.advanced-title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  margin: 0 0 4px;
+}

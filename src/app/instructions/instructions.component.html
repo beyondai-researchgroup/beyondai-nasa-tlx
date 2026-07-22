@@ -1,0 +1,55 @@
+<div class="page-wrapper">
+  <div class="instructions-container">
+
+    <header class="instructions-header">
+      <h1 class="instructions-title">{{ 'INSTRUCTIONS.TITLE' | translate }}</h1>
+      <p class="instructions-lead">{{ 'INSTRUCTIONS.LEAD' | translate }}</p>
+    </header>
+
+    <div class="scales-grid">
+      @for (scale of scales; track scale.nameKey) {
+        <div
+          class="scale-card"
+          role="button"
+          tabindex="0"
+          (click)="openModal(scale)"
+          (keydown.enter)="openModal(scale)"
+          (keydown.space)="$event.preventDefault(); openModal(scale)"
+        >
+          <div class="scale-accent-bar"></div>
+          <div class="scale-content">
+            <h3 class="scale-name">{{ scale.nameKey | translate }}</h3>
+            <p class="scale-description">{{ scale.descKey | translate }}</p>
+            <span class="scale-click-hint">{{ 'INSTRUCTIONS.CLICK_HINT' | translate }}</span>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="instructions-footer">
+      <button type="button" class="btn-ghost" (click)="proceed()">
+        {{ 'INSTRUCTIONS.NEXT' | translate }}
+      </button>
+    </div>
+
+  </div>
+</div>
+
+@if (selectedScale()) {
+  <div class="modal-backdrop" (click)="closeModal()">
+    <div class="modal-dialog" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+      <button
+        type="button"
+        class="modal-close"
+        (click)="closeModal()"
+        [attr.aria-label]="'INSTRUCTIONS.MODAL_CLOSE' | translate"
+      >×</button>
+      <h2 class="modal-title">{{ selectedScale()!.nameKey | translate }}</h2>
+      <p class="modal-detail">{{ selectedScale()!.detailKey | translate }}</p>
+      <div class="modal-example">
+        <span class="modal-example-label">{{ 'INSTRUCTIONS.MODAL_EXAMPLE_LABEL' | translate }}</span>
+        <p class="modal-example-text">{{ selectedScale()!.exampleKey | translate }}</p>
+      </div>
+    </div>
+  </div>
+}

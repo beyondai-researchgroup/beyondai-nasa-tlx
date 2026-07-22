@@ -1,0 +1,138 @@
+{
+  "APP": {
+    "TEAM": "BeyondAI"
+  },
+  "LOGIN": {
+    "TITLE": "NASA Task Load Index",
+    "SUBTITLE": "Mental Workload Assessment",
+    "SESSION_LABEL": "Session",
+    "SESSION_INTRO": "Introductory Session",
+    "SESSION_1": "Session 1",
+    "SESSION_2": "Session 2",
+    "PARTICIPANT_LABEL": "Participant ID",
+    "PARTICIPANT_PLACEHOLDER": "e.g. P-001",
+    "PARTICIPANT_ERROR": "Participant ID is required",
+    "SUBMIT": "Confirm and continue →",
+    "ADVANCED_TITLE": "Advanced Options",
+    "CALC_SCORES": "Calculate Scores",
+    "INCLUDE_WEIGHTINGS": "Include Factor Weighting",
+    "SUBMIT_CHECKING": "Verifying...",
+    "PARTICIPANT_NOT_FOUND": "No participant found with this ID. Please check your ID and try again.",
+    "CHECK_ERROR": "Verification error. Please try again."
+  },
+  "INSTRUCTIONS": {
+    "TITLE": "Scale Instructions",
+    "LEAD": "Read the description of each scale carefully before proceeding to the assessment. Each scale measures a different aspect of mental workload.",
+    "NEXT": "Next — Scale Rating →",
+    "CLICK_HINT": "Click for more details →",
+    "MODAL_EXAMPLE_LABEL": "Example",
+    "MODAL_CLOSE": "Close"
+  },
+  "SCALES_PAGE": {
+    "TITLE": "Scale Rating",
+    "LEAD": "For each scale, move the slider to the position that best describes your experience during the task.",
+    "BACK": "← Back",
+    "NEXT_COMPARE": "Next — Factor Comparison →",
+    "FINISH": "Finish →",
+    "TOUCH_HINT": "Move every slider to continue ({{count}}/6)"
+  },
+  "COMPARISONS": {
+    "TITLE": "Factor Comparison",
+    "QUESTION": "What had a greater impact on your overall workload?",
+    "OR": "or",
+    "BACK": "← Back"
+  },
+  "REVIEW": {
+    "TITLE": "Review Your Ratings",
+    "LEAD": "Check the values you entered before finishing. Clicking \"Confirm and finish\" records your responses.",
+    "BACK": "← Back to scales",
+    "CONFIRM": "Confirm and finish →"
+  },
+  "RESULTS": {
+    "TITLE": "Assessment Results",
+    "RAW_TLX": "Raw TLX",
+    "WEIGHTED_TLX": "Weighted TLX",
+    "SCALE_NOTE": "Scale from 0 (low workload) to 100 (high workload)",
+    "TABLE_TITLE": "Results by Scale",
+    "COL_SCALE": "Scale",
+    "COL_VALUE": "Value",
+    "COL_WEIGHT": "Weight",
+    "COL_WEIGHTED": "Weighted",
+    "DOWNLOAD": "↓ Download Results (JSON)",
+    "NEW_SESSION": "New Session",
+    "NEW_SESSION_CONFIRM": "Clear the current session data?",
+    "CONFIRM_YES": "Yes, new session",
+    "CONFIRM_NO": "Cancel",
+    "THANK_YOU": "Thank you for participating. Your responses have been recorded.",
+    "SAVE_SAVING": "Saving results...",
+    "SAVE_SAVED": "Results saved",
+    "SAVE_ERROR": "Results were not saved to the database. Please download the JSON as backup.",
+    "SAVE_RETRY": "Retry",
+    "PERF_NOTE": "Note: the Performance value follows the TLX convention — 0 means perfect performance, 100 means failure.",
+    "SESSION_DONE_TITLE": "Session finished",
+    "SESSION_DONE_TEXT": "Your answers have been saved and this session is marked as finished. Thank you for participating!",
+    "SESSION_DONE_OK": "OK"
+  },
+  "SCALE": {
+    "MENTAL_DEMAND": {
+      "NAME": "Mental Demand",
+      "DESC_INSTRUCTIONS": "How much mental and perceptual activity did the task require? Was the task easy or hard, simple or complex, did it require precision or was it forgiving?",
+      "DESC_SCALES": "How much mental and perceptual activity did the task require?",
+      "DESC_COMPARISONS": "How much mental and perceptual activity did the task require? Was it easy or hard, simple or complex?",
+      "DESC_DETAILED": "This scale reflects how much thinking, deciding, calculating, remembering, looking, or searching the task required. A mentally demanding task forces you to concentrate, hold information in mind, and process it quickly, even if it requires little physical effort. Consider both the amount of mental activity and how exacting or forgiving the task was — a complex task that allows mistakes can feel less demanding than a simple task that must be performed perfectly.",
+      "EXAMPLE": "For example, mentally solving a multi-step math problem in your head, or trying to remember a long sequence of instructions while simultaneously deciding what to do next, would register as high Mental Demand. Reading a single sentence and clicking a button would register as low Mental Demand.",
+      "LABEL_LOW": "Very Low",
+      "LABEL_HIGH": "Very High"
+    },
+    "PHYSICAL_DEMAND": {
+      "NAME": "Physical Demand",
+      "DESC_INSTRUCTIONS": "How much physical activity did the task require? Was the task easy or demanding, slow or fast, restful or strenuous?",
+      "DESC_SCALES": "How much physical activity did the task require?",
+      "DESC_COMPARISONS": "How much physical activity did the task require? Was it easy or demanding, slow or fast?",
+      "DESC_DETAILED": "This scale captures how much physical activity the task required — pushing, pulling, turning, controlling, or activating something. It also reflects whether the pace was slow or brisk, and whether the activity felt restful or laborious. A task can be physically demanding even without requiring great strength, if it involves frequent or sustained movement.",
+      "EXAMPLE": "Typing continuously for an hour, repeatedly clicking and dragging objects, or holding a device steady for a long period would register as moderate to high Physical Demand. Sitting still and only occasionally pressing a key would register as very low Physical Demand.",
+      "LABEL_LOW": "Very Low",
+      "LABEL_HIGH": "Very High"
+    },
+    "TEMPORAL_DEMAND": {
+      "NAME": "Temporal Demand",
+      "DESC_INSTRUCTIONS": "How much time pressure did you feel while performing the task? Was the pace slow and leisurely, or rapid and frantic?",
+      "DESC_SCALES": "How much time pressure did you feel while performing the task?",
+      "DESC_COMPARISONS": "How much time pressure did you feel? Was the pace slow and leisurely, or rapid and frantic?",
+      "DESC_DETAILED": "This scale measures the time pressure you felt because of the rate or pace at which tasks or task elements occurred. It is not just about how much time you had, but about how rushed or relaxed the pace felt. A task with a strict deadline or rapidly appearing elements feels temporally demanding, while a self-paced task with no urgency feels relaxed.",
+      "EXAMPLE": "Responding to a rapid sequence of alerts within seconds of each other, or racing against a countdown timer, would register as high Temporal Demand. Working through a checklist with no time limit, at your own pace, would register as low Temporal Demand.",
+      "LABEL_LOW": "Very Low",
+      "LABEL_HIGH": "Very High"
+    },
+    "PERFORMANCE": {
+      "NAME": "Performance",
+      "DESC_INSTRUCTIONS": "How successful do you think you were in accomplishing the task goals? How satisfied were you with your performance? Scale is inverted: a high value indicates excellent performance.",
+      "DESC_SCALES": "How successful do you think you were in accomplishing the task?",
+      "DESC_COMPARISONS": "How successful do you think you were in accomplishing the task? How satisfied were you with your performance?",
+      "DESC_DETAILED": "This scale reflects how successful you think you were in accomplishing the goals of the task, and how satisfied you were with your own performance. Unlike the other scales, a high value here means you performed well — the scale runs from Perfect on one end to Unsuccessful on the other, regardless of how much effort it took to get there.",
+      "EXAMPLE": "If you completed all parts of the task accurately and felt confident in the result, that would register as Perfect performance. If you made many mistakes, missed the goal, or felt you failed at what was asked, that would register as Unsuccessful performance — even if you tried very hard.",
+      "LABEL_LOW": "Unsuccessful",
+      "LABEL_HIGH": "Perfect"
+    },
+    "EFFORT": {
+      "NAME": "Effort",
+      "DESC_INSTRUCTIONS": "How hard did you have to work (mentally and physically) to achieve your level of performance?",
+      "DESC_SCALES": "How hard did you have to work to achieve your level of performance?",
+      "DESC_COMPARISONS": "How hard did you have to work (mentally and physically) to achieve your level of performance?",
+      "DESC_DETAILED": "This scale reflects how hard you had to work, mentally and physically, to reach your level of performance. It captures the level of exertion regardless of whether the outcome was good or bad — you can work extremely hard and still perform poorly, or barely work at all and still perform well.",
+      "EXAMPLE": "Pushing yourself to stay focused through a long, difficult task while constantly correcting mistakes would register as high Effort. Completing a task effortlessly, almost without thinking about it, would register as low Effort.",
+      "LABEL_LOW": "Very Low",
+      "LABEL_HIGH": "Very High"
+    },
+    "FRUSTRATION": {
+      "NAME": "Frustration",
+      "DESC_INSTRUCTIONS": "How insecure, discouraged, irritated, stressed, or annoyed did you feel during the task?",
+      "DESC_SCALES": "How irritated, stressed, or annoyed did you feel?",
+      "DESC_COMPARISONS": "How insecure, discouraged, irritated, stressed, or annoyed did you feel?",
+      "DESC_DETAILED": "This scale captures how insecure, discouraged, irritated, stressed, or annoyed you felt during the task, as opposed to feeling secure, content, relaxed, and complacent. It reflects your emotional state while performing the task, separate from how well you actually did.",
+      "EXAMPLE": "Feeling annoyed by repeated errors, getting stuck on the same step, or feeling anxious about not understanding what to do next would register as high Frustration. Feeling calm and at ease throughout the task, even if it was difficult, would register as low Frustration.",
+      "LABEL_LOW": "Very Low",
+      "LABEL_HIGH": "Very High"
+    }
+  }
+}

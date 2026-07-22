@@ -1,0 +1,115 @@
+<div class="page-wrapper">
+  <div class="results-container">
+
+    <header class="results-header">
+      <div class="results-meta">
+        <span class="meta-tag">{{ session().sessionId }}</span>
+        <span class="meta-tag mono">{{ session().participantId }}</span>
+      </div>
+      <h1 class="results-title">{{ 'RESULTS.TITLE' | translate }}</h1>
+    </header>
+
+    @if (showScores()) {
+      <!-- Overall score -->
+      <div class="score-hero card">
+        <div class="score-hero-inner">
+          <div class="score-block">
+            <span class="score-label">{{ 'RESULTS.RAW_TLX' | translate }}</span>
+            <span class="score-value">{{ rawTLX() }}</span>
+          </div>
+          @if (weightedTLX() !== null) {
+            <div class="score-divider"></div>
+            <div class="score-block">
+              <span class="score-label">{{ 'RESULTS.WEIGHTED_TLX' | translate }}</span>
+              <span class="score-value accent">{{ weightedTLX() }}</span>
+            </div>
+          }
+        </div>
+        <p class="score-note">{{ 'RESULTS.SCALE_NOTE' | translate }}</p>
+      </div>
+
+      <!-- Per-scale table -->
+      <div class="card">
+        <h2 class="section-title">{{ 'RESULTS.TABLE_TITLE' | translate }}</h2>
+        <div class="scale-table" [class.with-weightings]="hasWeightings()">
+          <div class="table-head">
+            <span>{{ 'RESULTS.COL_SCALE' | translate }}</span>
+            <span>{{ 'RESULTS.COL_VALUE' | translate }}</span>
+            @if (hasWeightings()) {
+              <span>{{ 'RESULTS.COL_WEIGHT' | translate }}</span>
+              <span>{{ 'RESULTS.COL_WEIGHTED' | translate }}</span>
+            }
+          </div>
+          @for (row of scaleRows(); track row.name) {
+            <div class="table-row">
+              <span class="row-name">{{ row.nameKey | translate }}</span>
+              <span class="row-raw mono">{{ row.raw }}</span>
+              @if (hasWeightings()) {
+                <span class="row-weight mono">{{ row.weight }}/15</span>
+                <span class="row-weighted mono accent">{{ row.weighted }}</span>
+              }
+            </div>
+          }
+        </div>
+        <p class="perf-note">{{ 'RESULTS.PERF_NOTE' | translate }}</p>
+      </div>
+    } @else {
+      <div class="card thank-you-card">
+        <p class="thank-you-text">{{ 'RESULTS.THANK_YOU' | translate }}</p>
+      </div>
+    }
+
+    <!-- Save status banner -->
+    @if (saveStatus() === 'saving') {
+      <div class="save-banner save-banner--saving">{{ 'RESULTS.SAVE_SAVING' | translate }}</div>
+    }
+    @if (saveStatus() === 'saved') {
+      <div class="save-banner save-banner--saved">{{ 'RESULTS.SAVE_SAVED' | translate }}</div>
+    }
+    @if (saveStatus() === 'error') {
+      <div class="save-banner save-banner--error">
+        <span>{{ 'RESULTS.SAVE_ERROR' | translate }}</span>
+        <button type="button" class="save-retry-btn" (click)="retrySave()">
+          {{ 'RESULTS.SAVE_RETRY' | translate }}
+        </button>
+      </div>
+    }
+
+    <!-- Actions -->
+    <div class="results-actions">
+      <button type="button" class="btn-ghost" (click)="download()">
+        {{ 'RESULTS.DOWNLOAD' | translate }}
+      </button>
+      @if (confirmingRestart()) {
+        <div class="restart-confirm">
+          <span class="restart-confirm-text">{{ 'RESULTS.NEW_SESSION_CONFIRM' | translate }}</span>
+          <button type="button" class="restart-confirm-yes" (click)="confirmRestart()">
+            {{ 'RESULTS.CONFIRM_YES' | translate }}
+          </button>
+          <button type="button" class="restart-confirm-no" (click)="cancelRestart()">
+            {{ 'RESULTS.CONFIRM_NO' | translate }}
+          </button>
+        </div>
+      } @else {
+        <button type="button" class="btn-restart" (click)="restart()">
+          {{ 'RESULTS.NEW_SESSION' | translate }}
+        </button>
+      }
+    </div>
+
+  </div>
+</div>
+
+<!-- Study flow: session-finished notification (BeyondAI handoff only) -->
+@if (showSessionDonePopup()) {
+  <div class="session-done-backdrop">
+    <div class="session-done-dialog card" role="dialog" aria-modal="true">
+      <span class="session-done-icon" aria-hidden="true">✓</span>
+      <h2 class="session-done-title">{{ 'RESULTS.SESSION_DONE_TITLE' | translate }}</h2>
+      <p class="session-done-text">{{ 'RESULTS.SESSION_DONE_TEXT' | translate }}</p>
+      <button type="button" class="btn-primary session-done-btn" (click)="closeSessionDonePopup()">
+        {{ 'RESULTS.SESSION_DONE_OK' | translate }}
+      </button>
+    </div>
+  </div>
+}

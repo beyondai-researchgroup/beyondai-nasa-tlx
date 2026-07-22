@@ -7,21 +7,34 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:Nasa-TLX-FullImplementation-AndrejKatin": "node dist/nasa-tlx-full-implementation-andrej-katin/server/server.mjs"
+    "serve:ssr:Nasa-TLX-FullImplementation-AndrejKatin": "node dist/nasa-tlx-full-implementation-andrej-katin/server/server.mjs",
+    "serve:db": "node --env-file=.env dist/nasa-tlx-full-implementation-andrej-katin/server/server.mjs"
   },
   "private": true,
   "dependencies": {
+    "@angular-slider/ngx-slider": "^17.0.2",
     "@angular/animations": "^17.2.0",
     "@angular/common": "^17.2.0",
     "@angular/compiler": "^17.2.0",
     "@angular/core": "^17.2.0",
     "@angular/forms": "^17.2.0",
+    "@angular/material": "^17.3.9",
+    "@angular/material-experimental": "^17.3.9",
     "@angular/platform-browser": "^17.2.0",
     "@angular/platform-browser-dynamic": "^17.2.0",
     "@angular/platform-server": "^17.2.0",
     "@angular/router": "^17.2.0",
     "@angular/ssr": "^17.2.1",
+    "@material/slider": "^15.0.0-canary.7f224ddd4.0",
+    "@neondatabase/serverless": "^1.1.0",
+    "@ngx-translate/core": "^15.0.0",
+    "@ngx-translate/http-loader": "^8.0.0",
+    "bootstrap": "^5.3.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
     "express": "^4.18.2",
+    "primeicons": "^7.0.0",
+    "primeng": "^17.16.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
@@ -39,6 +52,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "playwright": "^1.60.0",
     "typescript": "~5.3.2"
   }
 }

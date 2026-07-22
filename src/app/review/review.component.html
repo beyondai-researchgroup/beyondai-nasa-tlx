@@ -1,0 +1,28 @@
+<div class="page-centered">
+  <div class="review-container">
+
+    <header class="review-header">
+      <h1 class="review-title">{{ 'REVIEW.TITLE' | translate }}</h1>
+      <p class="review-lead">{{ 'REVIEW.LEAD' | translate }}</p>
+    </header>
+
+    <div class="card review-card">
+      @for (row of rows(); track row.name) {
+        <div class="review-row">
+          <span class="review-name">{{ row.nameKey | translate }}</span>
+          <span class="review-value mono">{{ row.displayed }}</span>
+        </div>
+      }
+    </div>
+
+    <div class="review-footer">
+      <button type="button" class="btn-ghost" (click)="back()">
+        {{ 'REVIEW.BACK' | translate }}
+      </button>
+      <button type="button" class="btn-primary review-confirm" (click)="confirm()">
+        {{ 'REVIEW.CONFIRM' | translate }}
+      </button>
+    </div>
+
+  </div>
+</div>

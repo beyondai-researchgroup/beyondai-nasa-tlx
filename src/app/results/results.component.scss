@@ -1,0 +1,328 @@
+.results-container {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.results-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.results-meta {
+  display: flex;
+  gap: 8px;
+}
+
+.meta-tag {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+  background: rgba(var(--color-accent-rgb), 0.08);
+  border: 1px solid rgba(var(--color-accent-rgb), 0.2);
+  padding: 3px 10px;
+  border-radius: var(--radius-tag);
+
+  &.mono { font-family: var(--font-mono); text-transform: none; }
+}
+
+.results-title {
+  font-size: 30px;
+  font-weight: 800;
+}
+
+// Score hero
+.score-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.score-hero-inner {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.score-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.score-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+}
+
+.score-value {
+  font-family: var(--font-mono);
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--color-text);
+
+  &.accent { color: var(--color-accent); }
+}
+
+.score-divider {
+  width: 1px;
+  height: 60px;
+  background: var(--color-border);
+}
+
+.score-note {
+  font-size: 12px;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+// Table
+.section-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.scale-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.table-head {
+  display: grid;
+  grid-template-columns: 1fr 80px;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+
+  span:not(:first-child) { text-align: right; }
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 1fr 80px;
+  gap: 8px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+  align-items: center;
+
+  &:last-child { border-bottom: none; }
+
+  span:not(:first-child) { text-align: right; }
+}
+
+.with-weightings .table-head,
+.with-weightings .table-row {
+  grid-template-columns: 1fr repeat(3, 80px);
+}
+
+.row-name {
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.row-raw,
+.row-weight,
+.row-weighted {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+.row-raw { color: var(--color-text); }
+.row-weighted.accent { color: var(--color-accent); }
+
+// Thank you
+.thank-you-card {
+  text-align: center;
+  padding: 48px 32px;
+}
+
+.thank-you-text {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.perf-note {
+  font-size: 12px;
+  color: var(--color-muted);
+  line-height: 1.5;
+  margin: 12px 0 0;
+}
+
+// Save status banner
+.save-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: var(--radius-card);
+  font-size: 13px;
+  font-weight: 500;
+
+  &--saving {
+    background: rgba(var(--color-muted-rgb), 0.15);
+    border: 1px solid var(--color-border);
+    color: var(--color-muted);
+  }
+
+  &--saved {
+    background: rgba(var(--color-accent-rgb), 0.07);
+    border: 1px solid rgba(var(--color-accent-rgb), 0.25);
+    color: var(--color-accent);
+  }
+
+  &--error {
+    background: var(--color-error-bg);
+    border: 1px solid var(--color-error-border);
+    color: var(--color-error);
+  }
+}
+
+.save-retry-btn {
+  flex-shrink: 0;
+  background: transparent;
+  border: 1px solid var(--color-error);
+  color: var(--color-error);
+  border-radius: var(--radius-input);
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+
+  &:hover { background: rgba(var(--color-error-rgb), 0.1); }
+}
+
+// Actions
+.results-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 40px;
+}
+
+.btn-restart {
+  font-size: 14px;
+  color: var(--color-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px 4px;
+  transition: color var(--transition-fast);
+
+  &:hover { color: var(--color-text); }
+}
+
+.restart-confirm {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.restart-confirm-text {
+  font-size: 13px;
+  color: var(--color-text);
+}
+
+.restart-confirm-yes,
+.restart-confirm-no {
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: var(--radius-input);
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.restart-confirm-yes {
+  background: transparent;
+  border: 1px solid var(--color-error);
+  color: var(--color-error);
+
+  &:hover { background: rgba(var(--color-error-rgb), 0.1); }
+}
+
+.restart-confirm-no {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-muted);
+
+  &:hover { color: var(--color-text); border-color: var(--color-border-strong); }
+}
+
+// ─── Session-finished popup (study flow) ─────────────────────────────────────
+
+.session-done-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(3px);
+}
+
+.session-done-dialog {
+  max-width: 420px;
+  width: calc(100% - 32px);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.session-done-icon {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--color-on-accent);
+  background: var(--color-accent);
+}
+
+.session-done-title {
+  font-size: 1.25rem;
+}
+
+.session-done-text {
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+}
+
+.session-done-btn {
+  width: auto;
+  min-width: 140px;
+  margin-top: 8px;
+}
