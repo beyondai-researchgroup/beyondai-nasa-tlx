@@ -1,7 +1,8 @@
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TlxStateService, ScaleName, Weightings } from '../services/tlx-state.service';
+import { TourService } from '../services/tour.service';
 import { SCALE_NAMES } from '../utils/scoring';
 import { SCALE_I18N_KEYS } from '../utils/scale-keys';
 import { fisherYatesShuffle } from '../utils/shuffle';
@@ -51,6 +52,8 @@ function buildAllPairs(): Pair[] {
 export class ComparisonsComponent implements OnInit, OnDestroy {
   private state = inject(TlxStateService);
   private router = inject(Router);
+  private tour = inject(TourService);
+  private translate = inject(TranslateService);
 
   pairs: Pair[] = [];
   currentIndex = signal(0);
@@ -63,6 +66,20 @@ export class ComparisonsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.pairs = fisherYatesShuffle(buildAllPairs());
+
+    if (this.state.session()?.dbSessionId === 1 && !this.state.isTourShown('comparisons')) {
+      this.state.markTourShown('comparisons');
+      this.translate.get(['TOUR.COMP_TITLE', 'TOUR.COMP_BODY']).subscribe(t => {
+        this.tour.start([
+          {
+            target: '.pair-grid',
+            placement: 'bottom',
+            title: t['TOUR.COMP_TITLE'],
+            body: t['TOUR.COMP_BODY'],
+          },
+        ]);
+      });
+    }
   }
 
   ngOnDestroy(): void {
@@ -106,6 +123,6 @@ export class ComparisonsComponent implements OnInit, OnDestroy {
     for (const pick of this.picks) w[pick]++;
     this.state.setWeightings(w);
     this.state.markComparisonsCompleted();
-    this.router.navigate(['/review']);
+    this.router.navigate(['/results']);
   }
 }

@@ -1,7 +1,8 @@
 import { Component, HostListener, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TlxStateService } from '../services/tlx-state.service';
+import { TourService } from '../services/tour.service';
 
 interface ScaleInfo {
   nameKey: string;
@@ -20,6 +21,8 @@ interface ScaleInfo {
 export class InstructionsComponent {
   private state = inject(TlxStateService);
   private router = inject(Router);
+  private tour = inject(TourService);
+  private translate = inject(TranslateService);
 
   readonly scales: ScaleInfo[] = [
     { nameKey: 'SCALE.MENTAL_DEMAND.NAME',  descKey: 'SCALE.MENTAL_DEMAND.DESC_INSTRUCTIONS',  detailKey: 'SCALE.MENTAL_DEMAND.DESC_DETAILED',  exampleKey: 'SCALE.MENTAL_DEMAND.EXAMPLE'  },
@@ -31,6 +34,26 @@ export class InstructionsComponent {
   ];
 
   readonly selectedScale = signal<ScaleInfo | null>(null);
+
+  constructor() {
+    // Intro-session participants get a short guided tour instead of a researcher narrating the
+    // UI live. Gated on isTourShown so it only auto-starts once per Intro session, not on
+    // revisits (e.g. clicking "Nazad" from the scales page). translate.get() (not .instant())
+    // is used because the JSON translation file may not have finished loading yet this early.
+    if (this.state.session()?.dbSessionId === 1 && !this.state.isTourShown('instructions')) {
+      this.state.markTourShown('instructions');
+      this.translate.get(['TOUR.INSTR_TITLE', 'TOUR.INSTR_BODY']).subscribe(t => {
+        this.tour.start([
+          {
+            target: '.scales-grid',
+            placement: 'bottom',
+            title: t['TOUR.INSTR_TITLE'],
+            body: t['TOUR.INSTR_BODY'],
+          },
+        ]);
+      });
+    }
+  }
 
   openModal(scale: ScaleInfo): void {
     this.selectedScale.set(scale);

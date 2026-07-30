@@ -3,13 +3,14 @@ import { isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { TlxStateService } from '../services/tlx-state.service';
+import { ThemeService } from '../services/theme.service';
 import { DB_SESSION_TO_TLX, TLX_LANG_KEY } from '../utils/study';
 
 /**
  * Entry point for the BeyondAI → NASA TLX handoff.
- * BeyondAI redirects here with `?participantId=…&sessionId=1|2|3&lang=sr|en`;
+ * BeyondAI redirects here with `?participantId=…&sessionId=1|2|3&lang=sr|en&theme=dark|light`;
  * the component seeds the TLX session (full procedure: scales + weightings),
- * locks the language chosen at BeyondAI login and jumps straight to the
+ * locks the language and theme chosen at BeyondAI and jumps straight to the
  * instructions — the manual /login page is bypassed entirely.
  */
 @Component({
@@ -22,6 +23,7 @@ export class AutoStartComponent implements OnInit {
   private router = inject(Router);
   private state = inject(TlxStateService);
   private translate = inject(TranslateService);
+  private themeService = inject(ThemeService);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   ngOnInit(): void {
@@ -31,6 +33,7 @@ export class AutoStartComponent implements OnInit {
     const participantId = params.get('participantId')?.trim() ?? '';
     const dbSessionId = Number(params.get('sessionId'));
     const lang = params.get('lang') === 'en' ? 'en' : 'sr';
+    const theme = params.get('theme') === 'light' ? 'light' : 'dark';
     const tlxSessionId = DB_SESSION_TO_TLX[dbSessionId];
 
     if (!participantId || !tlxSessionId) {
@@ -40,6 +43,7 @@ export class AutoStartComponent implements OnInit {
 
     this.translate.use(lang);
     try { sessionStorage.setItem(TLX_LANG_KEY, lang); } catch { /* storage unavailable */ }
+    this.themeService.setTheme(theme);
 
     this.state.reset();
     this.state.setSession({

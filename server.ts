@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import bootstrap from './src/main.server';
 import { getDb, isNonEmptyString, validateResultPayload, toCsv } from './api/_lib/db';
+import { notifyEegMarker, notifyEegStop } from './api/_lib/eeg';
 
 // ── Rate limiting (in-memory, per IP) ─────────────────────────────────────────
 
@@ -151,6 +152,11 @@ export function app(): express.Express {
       if (rows.length === 0) {
         res.status(404).json({ error: 'Participant session not found' });
         return;
+      }
+      await notifyEegMarker('TLX_DONE');
+      if (sessionId === 3) {
+        // Report is the last of the 3 study sessions — recording is done for this participant.
+        await notifyEegStop();
       }
       res.json({ ok: true });
     } catch (err) {

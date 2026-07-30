@@ -49,6 +49,7 @@ interface PersistedState {
   scalesCompletedAt: number | null;
   comparisonsCompletedAt: number | null;
   scalesTouched: string[];
+  tourShownPages: string[];
 }
 
 const STORAGE_KEY = 'tlx-state';
@@ -66,6 +67,7 @@ export class TlxStateService {
   private _scalesCompletedAt = signal<number | null>(null);
   private _comparisonsCompletedAt = signal<number | null>(null);
   private _scalesTouched = signal<string[]>([]);
+  private _tourShownPages = signal<Set<string>>(new Set());
 
   readonly session = this._session.asReadonly();
   readonly instructionsViewed = this._instructionsViewed.asReadonly();
@@ -76,6 +78,7 @@ export class TlxStateService {
   readonly scalesCompletedAt = this._scalesCompletedAt.asReadonly();
   readonly comparisonsCompletedAt = this._comparisonsCompletedAt.asReadonly();
   readonly scalesTouched = this._scalesTouched.asReadonly();
+  readonly tourShownPages = this._tourShownPages.asReadonly();
 
   constructor() {
     this.restore();
@@ -94,6 +97,18 @@ export class TlxStateService {
   markComparisonsCompleted(): void { this._comparisonsCompletedAt.set(Date.now()); this.persist(); }
   setScalesTouched(keys: string[]): void { this._scalesTouched.set(keys); this.persist(); }
 
+  /** Whether the per-page guided tour has already run for this page during the current session. */
+  isTourShown(page: string): boolean { return this._tourShownPages().has(page); }
+
+  /** Marks a page's guided tour as shown so it won't auto-start again on revisits. */
+  markTourShown(page: string): void {
+    if (this._tourShownPages().has(page)) return;
+    const next = new Set(this._tourShownPages());
+    next.add(page);
+    this._tourShownPages.set(next);
+    this.persist();
+  }
+
   reset(): void {
     this._session.set(null);
     this._instructionsViewed.set(false);
@@ -104,6 +119,7 @@ export class TlxStateService {
     this._scalesCompletedAt.set(null);
     this._comparisonsCompletedAt.set(null);
     this._scalesTouched.set([]);
+    this._tourShownPages.set(new Set());
     if (this.isBrowser) {
       try { sessionStorage.removeItem(STORAGE_KEY); } catch { /* storage unavailable */ }
     }
@@ -121,6 +137,7 @@ export class TlxStateService {
       scalesCompletedAt: this._scalesCompletedAt(),
       comparisonsCompletedAt: this._comparisonsCompletedAt(),
       scalesTouched: this._scalesTouched(),
+      tourShownPages: [...this._tourShownPages()],
     };
     try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot)); } catch { /* storage unavailable */ }
   }
@@ -142,6 +159,7 @@ export class TlxStateService {
       this._scalesCompletedAt.set(s.scalesCompletedAt ?? null);
       this._comparisonsCompletedAt.set(s.comparisonsCompletedAt ?? null);
       this._scalesTouched.set(Array.isArray(s.scalesTouched) ? s.scalesTouched : []);
+      this._tourShownPages.set(new Set(Array.isArray(s.tourShownPages) ? s.tourShownPages : []));
     } catch {
       try { sessionStorage.removeItem(STORAGE_KEY); } catch { /* ignore */ }
     }

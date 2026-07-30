@@ -34,7 +34,9 @@
     "BACK": "← Back",
     "NEXT_COMPARE": "Next — Factor Comparison →",
     "FINISH": "Finish →",
-    "TOUCH_HINT": "Move every slider to continue ({{count}}/6)"
+    "TOUCH_HINT": "Move every slider to continue ({{count}}/6)",
+    "STATUS_DONE": "Scale rated",
+    "STATUS_PENDING": "Scale not rated yet"
   },
   "COMPARISONS": {
     "TITLE": "Factor Comparison",
@@ -73,11 +75,31 @@
     "SESSION_DONE_TEXT": "Your answers have been saved and this session is marked as finished. Thank you for participating!",
     "SESSION_DONE_OK": "OK"
   },
+  "TOUR": {
+    "SKIP": "Skip",
+    "BACK": "← Back",
+    "NEXT": "Next →",
+    "DONE": "Got it",
+    "INSTR_TITLE": "NASA-TLX questionnaire",
+    "INSTR_BODY": "After every session in the BeyondAI app, this is where you rate how demanding the task was. Click any card below for a more detailed description of that scale, then \"Next\" to continue.",
+    "SCALES_INTRO_TITLE": "Scale rating",
+    "SCALES_INTRO_BODY": "For each scale, move the slider to the position from 0 to 100 that best describes your experience during the previous session.",
+    "SCALES_INFO_TITLE": "Detailed explanation",
+    "SCALES_INFO_BODY": "If you're not sure exactly what a scale measures, click this icon for a detailed description and example — same as on the previous page.",
+    "SCALES_STATUS_TITLE": "Completion indicator",
+    "SCALES_STATUS_BODY": "This little box next to the value shows whether you've moved the slider for that scale. It turns green with a checkmark as soon as you change the value for the first time — an easy way to see which scales you've already rated.",
+    "SCALES_PERFORMANCE_TITLE": "Note: this scale is reversed",
+    "SCALES_PERFORMANCE_BODY": "Unlike the other scales, for \"Performance\" a higher value means worse performance, and a lower value means better performance — pay attention to the labels below the slider.",
+    "SCALES_NEXT_TITLE": "Continuing",
+    "SCALES_NEXT_BODY": "You need to move every slider at least once before the \"Next\" button becomes active.",
+    "COMP_TITLE": "Factor comparison",
+    "COMP_BODY": "Here you choose which of two factors had a greater impact on your overall workload — click one of them. This repeats for a few pairs, and the result is used to calculate the weighted score."
+  },
   "SCALE": {
     "MENTAL_DEMAND": {
       "NAME": "Mental Demand",
       "DESC_INSTRUCTIONS": "How much mental and perceptual activity did the task require? Was the task easy or hard, simple or complex, did it require precision or was it forgiving?",
-      "DESC_SCALES": "How much mental and perceptual activity did the task require?",
+      "DESC_SCALES": "How much mental and perceptual activity did the task require? Was it easy or hard, simple or complex?",
       "DESC_COMPARISONS": "How much mental and perceptual activity did the task require? Was it easy or hard, simple or complex?",
       "DESC_DETAILED": "This scale reflects how much thinking, deciding, calculating, remembering, looking, or searching the task required. A mentally demanding task forces you to concentrate, hold information in mind, and process it quickly, even if it requires little physical effort. Consider both the amount of mental activity and how exacting or forgiving the task was — a complex task that allows mistakes can feel less demanding than a simple task that must be performed perfectly.",
       "EXAMPLE": "For example, mentally solving a multi-step math problem in your head, or trying to remember a long sequence of instructions while simultaneously deciding what to do next, would register as high Mental Demand. Reading a single sentence and clicking a button would register as low Mental Demand.",
@@ -87,7 +109,7 @@
     "PHYSICAL_DEMAND": {
       "NAME": "Physical Demand",
       "DESC_INSTRUCTIONS": "How much physical activity did the task require? Was the task easy or demanding, slow or fast, restful or strenuous?",
-      "DESC_SCALES": "How much physical activity did the task require?",
+      "DESC_SCALES": "How much physical activity did the task require? Was it easy or demanding, slow or fast?",
       "DESC_COMPARISONS": "How much physical activity did the task require? Was it easy or demanding, slow or fast?",
       "DESC_DETAILED": "This scale captures how much physical activity the task required — pushing, pulling, turning, controlling, or activating something. It also reflects whether the pace was slow or brisk, and whether the activity felt restful or laborious. A task can be physically demanding even without requiring great strength, if it involves frequent or sustained movement.",
       "EXAMPLE": "Typing continuously for an hour, repeatedly clicking and dragging objects, or holding a device steady for a long period would register as moderate to high Physical Demand. Sitting still and only occasionally pressing a key would register as very low Physical Demand.",
@@ -97,7 +119,7 @@
     "TEMPORAL_DEMAND": {
       "NAME": "Temporal Demand",
       "DESC_INSTRUCTIONS": "How much time pressure did you feel while performing the task? Was the pace slow and leisurely, or rapid and frantic?",
-      "DESC_SCALES": "How much time pressure did you feel while performing the task?",
+      "DESC_SCALES": "How much time pressure did you feel? Was the pace slow and leisurely, or rapid and frantic?",
       "DESC_COMPARISONS": "How much time pressure did you feel? Was the pace slow and leisurely, or rapid and frantic?",
       "DESC_DETAILED": "This scale measures the time pressure you felt because of the rate or pace at which tasks or task elements occurred. It is not just about how much time you had, but about how rushed or relaxed the pace felt. A task with a strict deadline or rapidly appearing elements feels temporally demanding, while a self-paced task with no urgency feels relaxed.",
       "EXAMPLE": "Responding to a rapid sequence of alerts within seconds of each other, or racing against a countdown timer, would register as high Temporal Demand. Working through a checklist with no time limit, at your own pace, would register as low Temporal Demand.",
@@ -107,7 +129,7 @@
     "PERFORMANCE": {
       "NAME": "Performance",
       "DESC_INSTRUCTIONS": "How successful do you think you were in accomplishing the task goals? How satisfied were you with your performance? Scale is inverted: a high value indicates excellent performance.",
-      "DESC_SCALES": "How successful do you think you were in accomplishing the task?",
+      "DESC_SCALES": "How successful do you think you were in accomplishing the task? How satisfied were you with your performance?",
       "DESC_COMPARISONS": "How successful do you think you were in accomplishing the task? How satisfied were you with your performance?",
       "DESC_DETAILED": "This scale reflects how successful you think you were in accomplishing the goals of the task, and how satisfied you were with your own performance. Unlike the other scales, a high value here means you performed well — the scale runs from Perfect on one end to Unsuccessful on the other, regardless of how much effort it took to get there.",
       "EXAMPLE": "If you completed all parts of the task accurately and felt confident in the result, that would register as Perfect performance. If you made many mistakes, missed the goal, or felt you failed at what was asked, that would register as Unsuccessful performance — even if you tried very hard.",
@@ -117,7 +139,7 @@
     "EFFORT": {
       "NAME": "Effort",
       "DESC_INSTRUCTIONS": "How hard did you have to work (mentally and physically) to achieve your level of performance?",
-      "DESC_SCALES": "How hard did you have to work to achieve your level of performance?",
+      "DESC_SCALES": "How hard did you have to work (mentally and physically) to achieve your level of performance?",
       "DESC_COMPARISONS": "How hard did you have to work (mentally and physically) to achieve your level of performance?",
       "DESC_DETAILED": "This scale reflects how hard you had to work, mentally and physically, to reach your level of performance. It captures the level of exertion regardless of whether the outcome was good or bad — you can work extremely hard and still perform poorly, or barely work at all and still perform well.",
       "EXAMPLE": "Pushing yourself to stay focused through a long, difficult task while constantly correcting mistakes would register as high Effort. Completing a task effortlessly, almost without thinking about it, would register as low Effort.",
@@ -127,7 +149,7 @@
     "FRUSTRATION": {
       "NAME": "Frustration",
       "DESC_INSTRUCTIONS": "How insecure, discouraged, irritated, stressed, or annoyed did you feel during the task?",
-      "DESC_SCALES": "How irritated, stressed, or annoyed did you feel?",
+      "DESC_SCALES": "How insecure, discouraged, irritated, stressed, or annoyed did you feel?",
       "DESC_COMPARISONS": "How insecure, discouraged, irritated, stressed, or annoyed did you feel?",
       "DESC_DETAILED": "This scale captures how insecure, discouraged, irritated, stressed, or annoyed you felt during the task, as opposed to feeling secure, content, relaxed, and complacent. It reflects your emotional state while performing the task, separate from how well you actually did.",
       "EXAMPLE": "Feeling annoyed by repeated errors, getting stuck on the same step, or feeling anxious about not understanding what to do next would register as high Frustration. Feeling calm and at ease throughout the task, even if it was difficult, would register as low Frustration.",

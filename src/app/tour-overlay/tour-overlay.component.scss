@@ -1,0 +1,96 @@
+.tour-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1001;
+  background: rgba(0, 0, 0, 0.65);
+  // clip-path (set from the component, per current target rect) punches the actual hole —
+  // this div still covers and hit-tests the whole viewport otherwise, so background clicks
+  // are genuinely blocked instead of just visually dimmed.
+  transition: clip-path 0.2s ease;
+  pointer-events: auto;
+}
+
+.tour-spotlight {
+  position: fixed;
+  z-index: 1001;
+  border-radius: 8px;
+  transition: top 0.2s ease, left 0.2s ease, width 0.2s ease, height 0.2s ease;
+  pointer-events: auto;
+}
+
+.tour-tooltip {
+  z-index: 1002;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 90vw;
+}
+
+.tour-step-count {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.tour-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.tour-body {
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.tour-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.tour-actions-nav {
+  display: flex;
+  gap: 8px;
+}
+
+.tour-btn {
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+
+.tour-btn--ghost {
+  background: transparent;
+  color: var(--color-muted);
+  border-color: var(--color-border);
+
+  &:hover {
+    color: var(--color-text);
+  }
+}
+
+.tour-btn--primary {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+
+  &:hover {
+    opacity: 0.9;
+  }
+}

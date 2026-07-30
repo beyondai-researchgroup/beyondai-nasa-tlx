@@ -1,12 +1,15 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, HostListener, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TlxStateService } from '../services/tlx-state.service';
+import { TourService } from '../services/tour.service';
 
 interface ScaleConfig {
   key: 'mentalDemand' | 'physicalDemand' | 'temporalDemand' | 'performance' | 'effort' | 'frustration';
   nameKey: string;
   descKey: string;
+  detailKey: string;
+  exampleKey: string;
   inverted: boolean;
   labelLowKey: string;
   labelHighKey: string;
@@ -22,12 +25,16 @@ interface ScaleConfig {
 export class ScalesComponent {
   private state = inject(TlxStateService);
   private router = inject(Router);
+  private tour = inject(TourService);
+  private translate = inject(TranslateService);
 
   readonly scaleConfigs: ScaleConfig[] = [
     {
       key: 'mentalDemand',
       nameKey: 'SCALE.MENTAL_DEMAND.NAME',
       descKey: 'SCALE.MENTAL_DEMAND.DESC_SCALES',
+      detailKey: 'SCALE.MENTAL_DEMAND.DESC_DETAILED',
+      exampleKey: 'SCALE.MENTAL_DEMAND.EXAMPLE',
       inverted: false,
       labelLowKey: 'SCALE.MENTAL_DEMAND.LABEL_LOW',
       labelHighKey: 'SCALE.MENTAL_DEMAND.LABEL_HIGH',
@@ -36,6 +43,8 @@ export class ScalesComponent {
       key: 'physicalDemand',
       nameKey: 'SCALE.PHYSICAL_DEMAND.NAME',
       descKey: 'SCALE.PHYSICAL_DEMAND.DESC_SCALES',
+      detailKey: 'SCALE.PHYSICAL_DEMAND.DESC_DETAILED',
+      exampleKey: 'SCALE.PHYSICAL_DEMAND.EXAMPLE',
       inverted: false,
       labelLowKey: 'SCALE.PHYSICAL_DEMAND.LABEL_LOW',
       labelHighKey: 'SCALE.PHYSICAL_DEMAND.LABEL_HIGH',
@@ -44,6 +53,8 @@ export class ScalesComponent {
       key: 'temporalDemand',
       nameKey: 'SCALE.TEMPORAL_DEMAND.NAME',
       descKey: 'SCALE.TEMPORAL_DEMAND.DESC_SCALES',
+      detailKey: 'SCALE.TEMPORAL_DEMAND.DESC_DETAILED',
+      exampleKey: 'SCALE.TEMPORAL_DEMAND.EXAMPLE',
       inverted: false,
       labelLowKey: 'SCALE.TEMPORAL_DEMAND.LABEL_LOW',
       labelHighKey: 'SCALE.TEMPORAL_DEMAND.LABEL_HIGH',
@@ -52,6 +63,8 @@ export class ScalesComponent {
       key: 'performance',
       nameKey: 'SCALE.PERFORMANCE.NAME',
       descKey: 'SCALE.PERFORMANCE.DESC_SCALES',
+      detailKey: 'SCALE.PERFORMANCE.DESC_DETAILED',
+      exampleKey: 'SCALE.PERFORMANCE.EXAMPLE',
       inverted: true,
       labelLowKey: 'SCALE.PERFORMANCE.LABEL_LOW',
       labelHighKey: 'SCALE.PERFORMANCE.LABEL_HIGH',
@@ -60,6 +73,8 @@ export class ScalesComponent {
       key: 'effort',
       nameKey: 'SCALE.EFFORT.NAME',
       descKey: 'SCALE.EFFORT.DESC_SCALES',
+      detailKey: 'SCALE.EFFORT.DESC_DETAILED',
+      exampleKey: 'SCALE.EFFORT.EXAMPLE',
       inverted: false,
       labelLowKey: 'SCALE.EFFORT.LABEL_LOW',
       labelHighKey: 'SCALE.EFFORT.LABEL_HIGH',
@@ -68,11 +83,74 @@ export class ScalesComponent {
       key: 'frustration',
       nameKey: 'SCALE.FRUSTRATION.NAME',
       descKey: 'SCALE.FRUSTRATION.DESC_SCALES',
+      detailKey: 'SCALE.FRUSTRATION.DESC_DETAILED',
+      exampleKey: 'SCALE.FRUSTRATION.EXAMPLE',
       inverted: false,
       labelLowKey: 'SCALE.FRUSTRATION.LABEL_LOW',
       labelHighKey: 'SCALE.FRUSTRATION.LABEL_HIGH',
     },
   ];
+
+  readonly selectedScale = signal<ScaleConfig | null>(null);
+
+  constructor() {
+    if (this.state.session()?.dbSessionId === 1 && !this.state.isTourShown('scales')) {
+      this.state.markTourShown('scales');
+      this.translate.get([
+        'TOUR.SCALES_INTRO_TITLE', 'TOUR.SCALES_INTRO_BODY',
+        'TOUR.SCALES_INFO_TITLE', 'TOUR.SCALES_INFO_BODY',
+        'TOUR.SCALES_STATUS_TITLE', 'TOUR.SCALES_STATUS_BODY',
+        'TOUR.SCALES_PERFORMANCE_TITLE', 'TOUR.SCALES_PERFORMANCE_BODY',
+        'TOUR.SCALES_NEXT_TITLE', 'TOUR.SCALES_NEXT_BODY',
+      ]).subscribe(t => {
+        this.tour.start([
+          {
+            target: '.scales-list',
+            placement: 'right',
+            title: t['TOUR.SCALES_INTRO_TITLE'],
+            body: t['TOUR.SCALES_INTRO_BODY'],
+          },
+          {
+            target: '.scale-info-btn',
+            placement: 'right',
+            title: t['TOUR.SCALES_INFO_TITLE'],
+            body: t['TOUR.SCALES_INFO_BODY'],
+          },
+          {
+            target: '.scale-status',
+            placement: 'left',
+            title: t['TOUR.SCALES_STATUS_TITLE'],
+            body: t['TOUR.SCALES_STATUS_BODY'],
+          },
+          {
+            target: '.scale-row[data-scale="performance"]',
+            placement: 'right',
+            title: t['TOUR.SCALES_PERFORMANCE_TITLE'],
+            body: t['TOUR.SCALES_PERFORMANCE_BODY'],
+          },
+          {
+            target: '.scales-footer-next',
+            placement: 'top',
+            title: t['TOUR.SCALES_NEXT_TITLE'],
+            body: t['TOUR.SCALES_NEXT_BODY'],
+          },
+        ]);
+      });
+    }
+  }
+
+  openModal(scale: ScaleConfig): void {
+    this.selectedScale.set(scale);
+  }
+
+  closeModal(): void {
+    this.selectedScale.set(null);
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    this.closeModal();
+  }
 
   values = signal<Record<string, number>>(this.buildInitialValues());
 
@@ -110,6 +188,10 @@ export class ScalesComponent {
 
   fillPercent(value: number): string {
     return `${value}%`;
+  }
+
+  isTouched(scale: ScaleConfig): boolean {
+    return this.touchedKeys().has(scale.key);
   }
 
   nativeValue(scale: ScaleConfig): number {
@@ -154,7 +236,7 @@ export class ScalesComponent {
     if (this.includeWeightings && !this.state.weightings()) {
       this.router.navigate(['/comparisons']);
     } else {
-      this.router.navigate(['/review']);
+      this.router.navigate(['/results']);
     }
   }
 }

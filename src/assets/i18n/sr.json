@@ -34,7 +34,9 @@
     "BACK": "← Nazad",
     "NEXT_COMPARE": "Dalje — Poređenje faktora →",
     "FINISH": "Završi →",
-    "TOUCH_HINT": "Pomerite svaki klizač da biste nastavili ({{count}}/6)"
+    "TOUCH_HINT": "Pomerite svaki klizač da biste nastavili ({{count}}/6)",
+    "STATUS_DONE": "Skala je ocenjena",
+    "STATUS_PENDING": "Skala još nije ocenjena"
   },
   "COMPARISONS": {
     "TITLE": "Poređenje faktora",
@@ -73,11 +75,31 @@
     "SESSION_DONE_TEXT": "Vaši odgovori su uspešno sačuvani i ova sesija je označena kao završena. Hvala na učešću!",
     "SESSION_DONE_OK": "U redu"
   },
+  "TOUR": {
+    "SKIP": "Preskoči",
+    "BACK": "← Nazad",
+    "NEXT": "Dalje →",
+    "DONE": "Razumem",
+    "INSTR_TITLE": "NASA-TLX upitnik",
+    "INSTR_BODY": "Nakon svake sesije u BeyondAI aplikaciji, ovde ocenjujete koliko vam je zadatak bio zahtevan. Kliknite na bilo koju karticu ispod za detaljniji opis te skale, a zatim „Dalje\" da nastavite.",
+    "SCALES_INTRO_TITLE": "Ocenjivanje skala",
+    "SCALES_INTRO_BODY": "Za svaku skalu pomerite klizač na poziciju od 0 do 100 koja najbolje opisuje vaše iskustvo tokom prethodne sesije.",
+    "SCALES_INFO_TITLE": "Detaljnije objašnjenje",
+    "SCALES_INFO_BODY": "Ako niste sigurni šta skala tačno meri, kliknite na ovu ikonicu za detaljan opis i primer — isto kao na prethodnoj stranici.",
+    "SCALES_STATUS_TITLE": "Oznaka završenosti",
+    "SCALES_STATUS_BODY": "Ovaj kvadratić pored vrednosti pokazuje da li ste pomerili klizač za tu skalu. Postaje zelen sa kvačicom čim prvi put promenite vrednost — tako lako proveravate koje skale ste već ocenili.",
+    "SCALES_PERFORMANCE_TITLE": "Pažnja: ova skala je obrnuta",
+    "SCALES_PERFORMANCE_BODY": "Za razliku od ostalih skala, kod „Performanse” veća vrednost znači lošiji učinak, a manja vrednost bolji učinak — obratite pažnju na oznake ispod klizača.",
+    "SCALES_NEXT_TITLE": "Nastavak",
+    "SCALES_NEXT_BODY": "Morate pomeriti svaki klizač bar jednom pre nego što dugme „Dalje\" postane aktivno.",
+    "COMP_TITLE": "Poređenje faktora",
+    "COMP_BODY": "Ovde birate koji je od dva faktora više uticao na vaše ukupno opterećenje — kliknite na jedan od njih. Ovo se ponavlja za nekoliko parova, a rezultat se koristi za izračunavanje ponderisanog skora."
+  },
   "SCALE": {
     "MENTAL_DEMAND": {
       "NAME": "Mentalni zahtev",
       "DESC_INSTRUCTIONS": "Koliko je mentalne i perceptivne aktivnosti zahtevao zadatak? Da li je zadatak bio lak ili težak, jednostavan ili složen, zahtevao preciznost ili opušten?",
-      "DESC_SCALES": "Koliko je mentalne i perceptivne aktivnosti zahtevao zadatak?",
+      "DESC_SCALES": "Koliko je mentalne i perceptivne aktivnosti zahtevao zadatak? Da li je bio lak ili težak, jednostavan ili složen?",
       "DESC_COMPARISONS": "Koliko je mentalne i perceptivne aktivnosti zahtevao zadatak? Da li je bio lak ili težak, jednostavan ili složen?",
       "DESC_DETAILED": "Ova skala pokazuje koliko je razmišljanja, odlučivanja, računanja, pamćenja, gledanja ili traženja zahtevao zadatak. Mentalno zahtevan zadatak tera vas da se koncentrišete, pamtite informacije i brzo ih obrađujete, čak i kada zahteva malo fizičkog napora. Razmislite i o količini mentalne aktivnosti i o tome koliko je zadatak bio strog ili opraštajuć — složen zadatak koji dozvoljava greške može delovati manje zahtevno od jednostavnog zadatka koji mora biti izveden besprekorno.",
       "EXAMPLE": "Na primer, rešavanje matematičkog problema sa više koraka u glavi, ili pokušaj da se zapamti dug niz instrukcija dok istovremeno odlučujete šta dalje da radite, predstavljaju visok mentalni zahtev. Čitanje jedne rečenice i klik na dugme predstavljaju nizak mentalni zahtev.",
@@ -87,7 +109,7 @@
     "PHYSICAL_DEMAND": {
       "NAME": "Fizički zahtev",
       "DESC_INSTRUCTIONS": "Koliko je fizičke aktivnosti zahtevao zadatak? Da li je zadatak bio lak ili naporan, spor ili brz, odmoran ili naporan?",
-      "DESC_SCALES": "Koliko je fizičke aktivnosti zahtevao zadatak?",
+      "DESC_SCALES": "Koliko je fizičke aktivnosti zahtevao zadatak? Da li je bio lak ili naporan, spor ili brz?",
       "DESC_COMPARISONS": "Koliko je fizičke aktivnosti zahtevao zadatak? Da li je bio lak ili naporan, spor ili brz?",
       "DESC_DETAILED": "Ova skala pokazuje koliko je fizičke aktivnosti zahtevao zadatak — guranje, vučenje, okretanje, kontrolisanje ili aktiviranje nečega. Takođe odražava da li je tempo bio spor ili brz, i da li je aktivnost bila odmarajuća ili naporna. Zadatak može biti fizički zahtevan i bez potrebe za velikom snagom, ako uključuje česte ili dugotrajne pokrete.",
       "EXAMPLE": "Neprekidno kucanje tokom čitavog sata, učestalo klikanje i prevlačenje objekata, ili dugo držanje uređaja u stabilnom položaju predstavljaju umeren do visok fizički zahtev. Mirno sedenje i samo povremeno pritiskanje tastera predstavljaju veoma nizak fizički zahtev.",
@@ -97,7 +119,7 @@
     "TEMPORAL_DEMAND": {
       "NAME": "Vremenski pritisak",
       "DESC_INSTRUCTIONS": "Koliko ste vremenskog pritiska osećali tokom obavljanja zadatka? Da li je tempo bio spor i opušten, ili brz i nasilan?",
-      "DESC_SCALES": "Koliko ste vremenskog pritiska osećali tokom obavljanja zadatka?",
+      "DESC_SCALES": "Koliko ste vremenskog pritiska osećali? Da li je tempo bio spor i opušten, ili brz i nasilan?",
       "DESC_COMPARISONS": "Koliko ste vremenskog pritiska osećali? Da li je tempo bio spor i opušten, ili brz i nasilan?",
       "DESC_DETAILED": "Ova skala meri vremenski pritisak koji ste osetili usled brzine ili tempa kojim su se zadaci ili elementi zadatka odvijali. Ne radi se samo o tome koliko vremena ste imali, već o tome koliko je tempo delovao požurujuće ili opušteno. Zadatak sa strogim rokom ili elementima koji se brzo pojavljuju deluje vremenski zahtevno, dok zadatak bez žurbe, u vašem sopstvenom tempu, deluje opušteno.",
       "EXAMPLE": "Reagovanje na brz niz upozorenja koja se javljaju u razmaku od nekoliko sekundi, ili utrkivanje sa odbrojavanjem vremena, predstavljaju visok vremenski pritisak. Prolazak kroz spisak zadataka bez vremenskog ograničenja, u sopstvenom tempu, predstavlja nizak vremenski pritisak.",
@@ -107,7 +129,7 @@
     "PERFORMANCE": {
       "NAME": "Performansa",
       "DESC_INSTRUCTIONS": "Koliko uspešno mislite da ste obavili zadatak koji su od vas tražili? Koliko ste zadovoljni/a svojim učinkom? Skala je invertovana: visoka vrednost znači odličnu performansu.",
-      "DESC_SCALES": "Koliko uspešno mislite da ste obavili zadatak?",
+      "DESC_SCALES": "Koliko uspešno mislite da ste obavili zadatak? Koliko ste zadovoljni/a svojim učinkom?",
       "DESC_COMPARISONS": "Koliko uspešno mislite da ste obavili zadatak? Koliko ste zadovoljni/a svojim učinkom?",
       "DESC_DETAILED": "Ova skala pokazuje koliko uspešno mislite da ste ostvarili ciljeve zadatka i koliko ste zadovoljni svojim učinkom. Za razliku od ostalih skala, visoka vrednost ovde znači da ste se dobro pokazali — skala ide od Savršeno na jednom kraju do Neuspešno na drugom, nezavisno od toga koliko truda je bilo potrebno da se do toga dođe.",
       "EXAMPLE": "Ako ste uspešno i precizno završili sve delove zadatka i osećate se sigurno u rezultat, to predstavlja Savršen učinak. Ako ste pravili mnogo grešaka, propustili cilj ili osećate da niste uspeli u traženom, to predstavlja Neuspešan učinak — i to bez obzira na to koliko se trudili.",
@@ -117,7 +139,7 @@
     "EFFORT": {
       "NAME": "Napor",
       "DESC_INSTRUCTIONS": "Koliko naporno ste morali da radite (mentalno i fizički) da biste postigli taj nivo učinka?",
-      "DESC_SCALES": "Koliko naporno ste morali da radite da biste postigli taj nivo učinka?",
+      "DESC_SCALES": "Koliko naporno ste morali da radite (mentalno i fizički) da biste postigli taj nivo učinka?",
       "DESC_COMPARISONS": "Koliko naporno ste morali da radite (mentalno i fizički) da biste postigli taj nivo učinka?",
       "DESC_DETAILED": "Ova skala pokazuje koliko naporno ste morali da radite, mentalno i fizički, da biste postigli svoj nivo učinka. Ona odražava nivo uloženog napora bez obzira na to da li je ishod bio dobar ili loš — možete se izuzetno truditi i ipak postići slab učinak, ili se gotovo ne truditi i ipak postići dobar učinak.",
       "EXAMPLE": "Naprezanje da ostanete fokusirani tokom dugog i teškog zadatka, uz konstantno ispravljanje grešaka, predstavlja visok napor. Završavanje zadatka bez napora, skoro automatski, predstavlja nizak napor.",
@@ -127,7 +149,7 @@
     "FRUSTRATION": {
       "NAME": "Frustracija",
       "DESC_INSTRUCTIONS": "Koliko ste se osećali nesigurno, obeshrabreno, iritovano, stresovano ili uznemireno tokom zadatka?",
-      "DESC_SCALES": "Koliko ste se osećali iritovano, stresovano ili uznemireno?",
+      "DESC_SCALES": "Koliko ste se osećali nesigurno, obeshrabreno, iritovano, stresovano ili uznemireno?",
       "DESC_COMPARISONS": "Koliko ste se osećali nesigurno, obeshrabreno, iritovano, stresovano ili uznemireno?",
       "DESC_DETAILED": "Ova skala pokazuje koliko ste se osećali nesigurno, obeshrabreno, iritirano, pod stresom ili iznervirano, naspram osećaja sigurnosti, zadovoljstva, opuštenosti i smirenosti. Odražava vaše emocionalno stanje tokom izvršavanja zadatka, nezavisno od toga koliko ste uspešno zadatak zaista obavili.",
       "EXAMPLE": "Osećaj iznerviranosti zbog ponovljenih grešaka, zaglavljivanje na istom koraku, ili anksioznost zbog nerazumevanja šta dalje treba uraditi predstavljaju visoku frustraciju. Osećaj mira i smirenosti tokom čitavog zadatka, i kada je bio težak, predstavlja nisku frustraciju.",

@@ -8,14 +8,32 @@
 
     <div class="scales-list">
       @for (scale of scaleConfigs; track scale.key) {
-        <div class="scale-row card">
+        <div class="scale-row card" [attr.data-scale]="scale.key">
 
           <div class="scale-top">
-            <div class="scale-meta">
-              <h3 class="scale-name">{{ scale.nameKey | translate }}</h3>
-              <p class="scale-desc">{{ scale.descKey | translate }}</p>
+            <div class="scale-heading">
+              <button
+                type="button"
+                class="scale-info-btn"
+                (click)="openModal(scale)"
+                [attr.aria-label]="'INSTRUCTIONS.CLICK_HINT' | translate"
+              >i</button>
+              <div class="scale-meta">
+                <h3 class="scale-name">{{ scale.nameKey | translate }}</h3>
+                <p class="scale-desc">{{ scale.descKey | translate }}</p>
+              </div>
             </div>
             <div class="scale-value-badge">
+              <div
+                class="scale-status"
+                [class.scale-status--done]="isTouched(scale)"
+                [attr.aria-label]="(isTouched(scale) ? 'SCALES_PAGE.STATUS_DONE' : 'SCALES_PAGE.STATUS_PENDING') | translate"
+                [attr.title]="(isTouched(scale) ? 'SCALES_PAGE.STATUS_DONE' : 'SCALES_PAGE.STATUS_PENDING') | translate"
+              >
+                @if (isTouched(scale)) {
+                  <span class="scale-status-check" aria-hidden="true">✓</span>
+                }
+              </div>
               <span class="scale-value">{{ values()[scale.key] }}</span>
             </div>
           </div>
@@ -69,3 +87,22 @@
 
   </div>
 </div>
+
+@if (selectedScale()) {
+  <div class="modal-backdrop" (click)="closeModal()">
+    <div class="modal-dialog" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+      <button
+        type="button"
+        class="modal-close"
+        (click)="closeModal()"
+        [attr.aria-label]="'INSTRUCTIONS.MODAL_CLOSE' | translate"
+      >×</button>
+      <h2 class="modal-title">{{ selectedScale()!.nameKey | translate }}</h2>
+      <p class="modal-detail">{{ selectedScale()!.detailKey | translate }}</p>
+      <div class="modal-example">
+        <span class="modal-example-label">{{ 'INSTRUCTIONS.MODAL_EXAMPLE_LABEL' | translate }}</span>
+        <p class="modal-example-text">{{ selectedScale()!.exampleKey | translate }}</p>
+      </div>
+    </div>
+  </div>
+}

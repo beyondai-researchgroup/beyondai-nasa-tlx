@@ -3,12 +3,13 @@ import { isPlatformBrowser } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { GlobalHeaderComponent } from './global-header/global-header.component';
+import { TourOverlayComponent } from './tour-overlay/tour-overlay.component';
 import { TLX_LANG_KEY } from './utils/study';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, GlobalHeaderComponent],
+  imports: [RouterOutlet, GlobalHeaderComponent, TourOverlayComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

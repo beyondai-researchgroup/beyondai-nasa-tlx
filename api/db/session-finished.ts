@@ -1,4 +1,5 @@
 import { getDb, isNonEmptyString } from '../_lib/db.js';
+import { notifyEegMarker, notifyEegStop } from '../_lib/eeg.js';
 import { ApiRequest, ApiResponse, sendJson } from '../_lib/http.js';
 
 // Marks a study session (BeyondAI → NASA TLX flow) as finished for a participant.
@@ -29,6 +30,10 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     if (rows.length === 0) {
       sendJson(res, 404, { error: 'Participant session not found' });
       return;
+    }
+    await notifyEegMarker('TLX_DONE');
+    if (sessionId === 3) {
+      await notifyEegStop();
     }
     sendJson(res, 200, { ok: true });
   } catch (err) {

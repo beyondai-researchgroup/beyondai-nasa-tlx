@@ -37,6 +37,11 @@ export class ResultsComponent implements OnInit {
   readonly scales = computed(() => this.state.scales()!);
   readonly weightings = computed(() => this.state.weightings());
 
+  // TEMP (2026-07-28): rezultati/skorovi privremeno sakriveni na zahtev — samo se modal
+  // "sesija završena" prikazuje nakon čuvanja. Vrati na this.session().config.calculateScores
+  // da se rezultati ponovo prikažu.
+  readonly showResultsSection = false;
+
   readonly showScores = computed(() => this.session().config.calculateScores);
   readonly hasWeightings = computed(() => !!this.weightings() && this.session().config.includeWeightings);
 

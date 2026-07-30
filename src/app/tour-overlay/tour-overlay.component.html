@@ -1,0 +1,32 @@
+@if (tour.active() && tour.currentStep(); as step) {
+
+  <div class="tour-backdrop" [style.clip-path]="backdropClipPath()"></div>
+
+  @if (rect(); as r) {
+    <div
+      class="tour-spotlight"
+      [style.top.px]="r.top"
+      [style.left.px]="r.left"
+      [style.width.px]="r.width"
+      [style.height.px]="r.height"
+    ></div>
+  }
+
+  <div class="tour-tooltip" [ngStyle]="tooltipStyle()" role="dialog" aria-modal="true">
+    <div class="tour-step-count">{{ stepIndex() }} / {{ stepCount() }}</div>
+    <h3 class="tour-title">{{ step.title }}</h3>
+    <p class="tour-body">{{ step.body }}</p>
+
+    <div class="tour-actions">
+      <button type="button" class="tour-btn tour-btn--ghost" (click)="skip()">{{ 'TOUR.SKIP' | translate }}</button>
+      <div class="tour-actions-nav">
+        @if (!tour.isFirst()) {
+          <button type="button" class="tour-btn tour-btn--ghost" (click)="back()">{{ 'TOUR.BACK' | translate }}</button>
+        }
+        <button type="button" class="tour-btn tour-btn--primary" (click)="next()">
+          {{ (tour.isLast() ? 'TOUR.DONE' : 'TOUR.NEXT') | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

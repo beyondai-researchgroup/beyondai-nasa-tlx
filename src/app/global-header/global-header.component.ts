@@ -12,7 +12,7 @@ import { Theme, ThemeService } from '../services/theme.service';
         <div class="brand-logo-wrap">
           <img [src]="logoSrc()" alt="BeyondAI" class="brand-logo" />
         </div>
-        <span class="brand-name">BeyondAI</span>
+        <span class="brand-name">BeyondAI Research Group</span>
       </div>
       <div class="header-controls">
         <div class="toggle-group" aria-label="Theme">

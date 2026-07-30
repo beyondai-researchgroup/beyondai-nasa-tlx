@@ -28,11 +28,6 @@ export const routes: Routes = [
     canActivate: [sessionGuard],
   },
   {
-    path: 'review',
-    loadComponent: () => import('./review/review.component').then(m => m.ReviewComponent),
-    canActivate: [sessionGuard],
-  },
-  {
     path: 'results',
     loadComponent: () => import('./results/results.component').then(m => m.ResultsComponent),
     canActivate: [sessionGuard],
