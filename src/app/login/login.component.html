@@ -67,22 +67,10 @@
           }
         </button>
 
-        <!-- Advanced options -->
-        <div class="advanced-section">
-          <p class="advanced-title">{{ 'LOGIN.ADVANCED_TITLE' | translate }}</p>
-
-          <label class="toggle-switch">
-            <input type="checkbox" formControlName="calculateScores" />
-            <span class="toggle-track"></span>
-            <span class="toggle-label">{{ 'LOGIN.CALC_SCORES' | translate }}</span>
-          </label>
-
-          <label class="toggle-switch">
-            <input type="checkbox" formControlName="includeWeightings" />
-            <span class="toggle-track"></span>
-            <span class="toggle-label">{{ 'LOGIN.INCLUDE_WEIGHTINGS' | translate }}</span>
-          </label>
-        </div>
+        <!-- The calculateScores/includeWeightings structure used to be picked here (Advanced
+             options); it now comes from the participant's research config (BeyondAI Admin
+             Dashboard's Study Configuration page), fetched on submit. -->
+        <p class="advanced-hint">{{ 'LOGIN.STRUCTURE_FROM_CONFIG_HINT' | translate }}</p>
 
       </form>
     </div>

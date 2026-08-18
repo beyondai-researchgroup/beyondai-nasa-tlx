@@ -59,4 +59,23 @@ export class DatabaseService {
         .pipe(timeout(REQUEST_TIMEOUT_MS))
     );
   }
+
+  /**
+   * Fetches the participant's research-level TLX structure config (set on the BeyondAI Admin
+   * Dashboard's Study Configuration page). Callers fall back to the full-procedure default on
+   * any failure — this must never block getting into the test.
+   */
+  async getTlxConfig(participantId: string): Promise<{ calculateScores: boolean; includeWeightings: boolean }> {
+    try {
+      return await firstValueFrom(
+        this.http
+          .get<{ calculateScores: boolean; includeWeightings: boolean }>(
+            `/api/db/tlx-config/${encodeURIComponent(participantId)}`
+          )
+          .pipe(timeout(REQUEST_TIMEOUT_MS))
+      );
+    } catch {
+      return { calculateScores: true, includeWeightings: true };
+    }
+  }
 }

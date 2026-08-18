@@ -13,9 +13,7 @@
     "PARTICIPANT_PLACEHOLDER": "npr. P-001",
     "PARTICIPANT_ERROR": "ID ispitanika je obavezno polje",
     "SUBMIT": "Potvrdi i nastavi →",
-    "ADVANCED_TITLE": "Napredne opcije",
-    "CALC_SCORES": "Računaj skorove",
-    "INCLUDE_WEIGHTINGS": "Uključi poređenje težinskih faktora",
+    "STRUCTURE_FROM_CONFIG_HINT": "Struktura upitnika (skorovi/ponderisanje) se sada preuzima iz podešavanja istraživanja za učesnikovo istraživanje.",
     "SUBMIT_CHECKING": "Provera...",
     "PARTICIPANT_NOT_FOUND": "Ispitanik sa ovim ID-om nije pronađen. Proverite ID i pokušajte ponovo.",
     "CHECK_ERROR": "Greška pri proveri. Pokušajte ponovo."

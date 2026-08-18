@@ -20,6 +20,34 @@ export function getDb() {
 
 export const SESSION_IDS = ['Uvodna sesija', 'Sesija 1', 'Sesija 2'];
 
+export interface TlxConfig {
+  calculateScores: boolean;
+  includeWeightings: boolean;
+}
+
+/**
+ * Resolves a participant's research-level TLX structure config (BeyondAI Admin Dashboard's
+ * "Study Configuration" page — TlxCalculateScores/TlxIncludeWeightings on the "Research"
+ * table). Returns null if the participant (or their research) can't be resolved — callers
+ * should fall back to the full-procedure default ({calculateScores: true, includeWeightings:
+ * true}) in that case rather than blocking the flow, same as before this config existed.
+ */
+export async function getTlxConfigForParticipant(
+  sql: ReturnType<typeof neon>,
+  participantId: string
+): Promise<TlxConfig | null> {
+  const rows = (await sql`
+    SELECT r."TlxCalculateScores", r."TlxIncludeWeightings"
+    FROM "Participant" p
+    JOIN "Research" r ON r."Id" = p."ResearchId"
+    WHERE p."ParticipantId" = ${participantId}
+    LIMIT 1
+  `) as { TlxCalculateScores: boolean; TlxIncludeWeightings: boolean }[];
+
+  if (!rows.length) return null;
+  return { calculateScores: rows[0].TlxCalculateScores, includeWeightings: rows[0].TlxIncludeWeightings };
+}
+
 export function isNonEmptyString(v: unknown, max: number): v is string {
   return typeof v === 'string' && v.trim().length > 0 && v.length <= max;
 }

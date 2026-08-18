@@ -13,9 +13,7 @@
     "PARTICIPANT_PLACEHOLDER": "e.g. P-001",
     "PARTICIPANT_ERROR": "Participant ID is required",
     "SUBMIT": "Confirm and continue →",
-    "ADVANCED_TITLE": "Advanced Options",
-    "CALC_SCORES": "Calculate Scores",
-    "INCLUDE_WEIGHTINGS": "Include Factor Weighting",
+    "STRUCTURE_FROM_CONFIG_HINT": "The questionnaire structure (scores/weighting) is now taken from the study configuration for the participant's research.",
     "SUBMIT_CHECKING": "Verifying...",
     "PARTICIPANT_NOT_FOUND": "No participant found with this ID. Please check your ID and try again.",
     "CHECK_ERROR": "Verification error. Please try again."

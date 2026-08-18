@@ -27,8 +27,6 @@ export class LoginComponent {
   form = this.fb.group({
     sessionId: ['Sesija 1' as SessionId, Validators.required],
     participantId: ['', [Validators.required, Validators.pattern(/\S/), Validators.maxLength(50)]],
-    calculateScores: [true],
-    includeWeightings: [true],
   });
 
   selectSession(id: SessionId): void {
@@ -73,13 +71,13 @@ export class LoginComponent {
     }
 
     this.isChecking.set(false);
+    // Structure comes from the participant's research config (BeyondAI Admin Dashboard's
+    // Study Configuration page) now, not a fresh pair of checkboxes on this screen.
+    const config = await this.db.getTlxConfig(participantId);
     this.state.setSession({
       sessionId: v.sessionId as SessionId,
       participantId,
-      config: {
-        calculateScores: !!v.calculateScores,
-        includeWeightings: !!v.includeWeightings,
-      },
+      config,
     });
     this.router.navigate(['/instructions']);
   }

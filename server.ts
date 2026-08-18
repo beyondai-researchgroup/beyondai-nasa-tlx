@@ -4,7 +4,7 @@ import express from 'express';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import bootstrap from './src/main.server';
-import { getDb, isNonEmptyString, validateResultPayload, toCsv } from './api/_lib/db';
+import { getDb, isNonEmptyString, validateResultPayload, toCsv, getTlxConfigForParticipant } from './api/_lib/db';
 import { notifyEegMarker, notifyEegStop } from './api/_lib/eeg';
 
 // ── Rate limiting (in-memory, per IP) ─────────────────────────────────────────
@@ -65,6 +65,29 @@ export function app(): express.Express {
       res.json({ exists: rows.length > 0 });
     } catch (err) {
       console.error('[DB] participant check error:', err);
+      res.status(500).json({ error: 'Database error' });
+    }
+  });
+
+  // Research-level TLX structure config (BeyondAI Admin Dashboard's "Study Configuration"
+  // page) — read by both the manual /login page and the /start auto-handoff instead of either
+  // hardcoding {true,true} or letting whoever's testing pick fresh checkboxes each time.
+  server.get('/api/db/tlx-config/:participantId', async (req, res) => {
+    const participantId = req.params['participantId'];
+    if (!isNonEmptyString(participantId, 50)) {
+      res.status(400).json({ error: 'Invalid participant id' });
+      return;
+    }
+    try {
+      const sql = getDb();
+      const config = await getTlxConfigForParticipant(sql, participantId);
+      if (!config) {
+        res.status(404).json({ error: 'Participant not found' });
+        return;
+      }
+      res.json(config);
+    } catch (err) {
+      console.error('[DB] tlx-config error:', err);
       res.status(500).json({ error: 'Database error' });
     }
   });
