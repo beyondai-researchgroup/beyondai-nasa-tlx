@@ -23,8 +23,8 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     const sql = getDb();
 
     const participantRows = (await sql`
-      SELECT "IsTestParticipant" FROM "Participant" WHERE "ParticipantId" = ${participantId} LIMIT 1
-    `) as { IsTestParticipant: boolean }[];
+      SELECT "IsTestParticipant", "TestFixedSessionId" FROM "Participant" WHERE "ParticipantId" = ${participantId} LIMIT 1
+    `) as { IsTestParticipant: boolean; TestFixedSessionId: number | null }[];
     if (!participantRows.length) {
       sendJson(res, 404, { error: 'Participant not found' });
       return;
@@ -32,14 +32,18 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
 
     // A fixed test participant's IsFinished flag never changes — they keep re-running the same
     // session indefinitely for other researchers to test against (see Participant.IsTestParticipant).
-    if (!participantRows[0].IsTestParticipant) {
+    // A test participant with NO fixed session (e.g. 005) cycles through their own sessions instead,
+    // so their flag is flipped like a real participant's; Code Review AI resets the whole cycle once
+    // every session is finished.
+    const { IsTestParticipant: isTest, TestFixedSessionId: fixedSessionId } = participantRows[0];
+    if (!isTest || fixedSessionId == null) {
       const rows = (await sql`
         UPDATE "ParticipantSession"
         SET "IsFinished" = TRUE, "FinishedAt" = NOW()
         WHERE "ParticipantId" = ${participantId} AND "SessionId" = ${sessionId}
         RETURNING "Id"
       `) as unknown[];
-      if (rows.length === 0) {
+      if (rows.length === 0 && !isTest) {
         sendJson(res, 404, { error: 'Participant session not found' });
         return;
       }

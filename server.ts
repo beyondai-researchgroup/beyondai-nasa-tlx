@@ -256,23 +256,24 @@ export function app(): express.Express {
       const sql = getDb();
 
       const participantRows = await sql`
-        SELECT "IsTestParticipant" FROM "Participant" WHERE "ParticipantId" = ${participantId} LIMIT 1
-      ` as { IsTestParticipant: boolean }[];
+        SELECT "IsTestParticipant", "TestFixedSessionId" FROM "Participant" WHERE "ParticipantId" = ${participantId} LIMIT 1
+      ` as { IsTestParticipant: boolean; TestFixedSessionId: number | null }[];
       if (!participantRows.length) {
         res.status(404).json({ error: 'Participant not found' });
         return;
       }
 
       // A fixed test participant's IsFinished flag never changes — see api/db/session-finished.ts's
-      // identical comment (this file mirrors it for local dev).
-      if (!participantRows[0].IsTestParticipant) {
+      // identical comment (this file mirrors it for local dev), including the cycling-test-participant case.
+      const { IsTestParticipant: isTest, TestFixedSessionId: fixedSessionId } = participantRows[0];
+      if (!isTest || fixedSessionId == null) {
         const rows = await sql`
           UPDATE "ParticipantSession"
           SET "IsFinished" = TRUE, "FinishedAt" = NOW()
           WHERE "ParticipantId" = ${participantId} AND "SessionId" = ${sessionId}
           RETURNING "Id"
         ` as unknown[];
-        if (rows.length === 0) {
+        if (rows.length === 0 && !isTest) {
           res.status(404).json({ error: 'Participant session not found' });
           return;
         }
