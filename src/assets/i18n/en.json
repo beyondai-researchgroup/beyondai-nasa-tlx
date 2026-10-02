@@ -2,6 +2,16 @@
   "APP": {
     "TEAM": "BeyondAI"
   },
+  "LINK": {
+    "LOADING": "Checking your link…",
+    "ALREADY_TITLE": "Questionnaire already completed",
+    "ALREADY_TEXT": "You've already completed this questionnaire, thank you! You may close this page.",
+    "ERROR_TITLE": "Invalid link",
+    "ERROR_EXPIRED": "This link has expired (links are valid for 24 hours). Please contact the researcher to get a new one.",
+    "ERROR_NOT_FOUND": "This link wasn't recognized. Check that you copied the full link from the email, or contact the researcher.",
+    "ERROR_NOT_ACTIVE": "This link isn't active right now. Please contact the researcher.",
+    "ERROR_SERVER": "An error occurred while checking your link. Please try again shortly."
+  },
   "LOGIN": {
     "TITLE": "NASA Task Load Index",
     "SUBTITLE": "Mental Workload Assessment",
@@ -9,6 +19,8 @@
     "SESSION_INTRO": "Introductory Session",
     "SESSION_1": "Session 1",
     "SESSION_2": "Session 2",
+    "SESSION_HYBRID": "Hybrid Session",
+    "SESSION_STANDALONE": "Standalone Session",
     "PARTICIPANT_LABEL": "Participant ID",
     "PARTICIPANT_PLACEHOLDER": "e.g. P-001",
     "PARTICIPANT_ERROR": "Participant ID is required",
@@ -21,7 +33,7 @@
   "INSTRUCTIONS": {
     "TITLE": "Scale Instructions",
     "LEAD": "Read the description of each scale carefully before proceeding to the assessment. Each scale measures a different aspect of mental workload.",
-    "NEXT": "Next — Scale Rating →",
+    "NEXT": "Next - Scale Rating →",
     "CLICK_HINT": "Click for more details →",
     "MODAL_EXAMPLE_LABEL": "Example",
     "MODAL_CLOSE": "Close"
@@ -30,7 +42,7 @@
     "TITLE": "Scale Rating",
     "LEAD": "For each scale, move the slider to the position that best describes your experience during the task.",
     "BACK": "← Back",
-    "NEXT_COMPARE": "Next — Factor Comparison →",
+    "NEXT_COMPARE": "Next - Factor Comparison →",
     "FINISH": "Finish →",
     "TOUCH_HINT": "Move every slider to continue ({{count}}/6)",
     "STATUS_DONE": "Scale rated",
@@ -68,10 +80,38 @@
     "SAVE_SAVED": "Results saved",
     "SAVE_ERROR": "Results were not saved to the database. Please download the JSON as backup.",
     "SAVE_RETRY": "Retry",
-    "PERF_NOTE": "Note: the Performance value follows the TLX convention — 0 means perfect performance, 100 means failure.",
+    "PERF_NOTE": "Note: the Performance value follows the TLX convention - 0 means perfect performance, 100 means failure.",
     "SESSION_DONE_TITLE": "Session finished",
     "SESSION_DONE_TEXT": "Your answers have been saved and this session is marked as finished. Thank you for participating!",
-    "SESSION_DONE_OK": "OK"
+    "SESSION_DONE_OK": "OK",
+    "INTRO_SESSION_DONE_TITLE": "Intro session finished",
+    "INTRO_SESSION_DONE_TEXT": "You have successfully finished the Intro session. Researchers will contact you about further steps. You may now close this tab.",
+    "INTRO_SESSION_DONE_OK": "OK"
+  },
+  "POST_SESSION": {
+    "TITLE": "Just a few more questions",
+    "INTRO": "Before this session is fully finished, please answer a few short questions about the session you just completed.",
+    "Q1": "How clearly was it defined what you needed to do during this session?",
+    "Q1_LOW": "Not clear at all",
+    "Q1_HIGH": "Completely clear",
+    "Q2": "How easy was it to get through this session, regardless of any difficulties you may have had?",
+    "Q2_LOW": "Very difficult",
+    "Q2_HIGH": "Very easy",
+    "Q3": "How satisfied are you with your own performance during this session?",
+    "Q3_LOW": "Not satisfied at all",
+    "Q3_HIGH": "Extremely satisfied",
+    "Q4_INTRO": "How much did the introductory session help you prepare for the next steps of the study?",
+    "Q4_AI": "How much did the AI assistant help you make your decision about the Pull Request?",
+    "Q4_REPORT": "How much did the documentation/report help you make your decision about the Pull Request?",
+    "Q4_HYBRID": "How much did the combination of documentation and AI chat help you make your decision about the Pull Request?",
+    "Q4_LOW": "Not at all",
+    "Q4_HIGH": "Extremely",
+    "Q5": "Is there anything you'd like to flag about this session — difficulties, unclear parts, or suggestions? (optional)",
+    "Q5_PLACEHOLDER": "Your answer (optional)...",
+    "SUBMIT": "Submit",
+    "SAVING": "Submitting...",
+    "SAVE_ERROR": "Your answers could not be saved. Please check your internet connection and try again.",
+    "SAVE_RETRY": "Retry"
   },
   "TOUR": {
     "SKIP": "Skip",
@@ -83,15 +123,15 @@
     "SCALES_INTRO_TITLE": "Scale rating",
     "SCALES_INTRO_BODY": "For each scale, move the slider to the position from 0 to 100 that best describes your experience during the previous session.",
     "SCALES_INFO_TITLE": "Detailed explanation",
-    "SCALES_INFO_BODY": "If you're not sure exactly what a scale measures, click this icon for a detailed description and example — same as on the previous page.",
+    "SCALES_INFO_BODY": "If you're not sure exactly what a scale measures, click this icon for a detailed description and example - same as on the previous page.",
     "SCALES_STATUS_TITLE": "Completion indicator",
-    "SCALES_STATUS_BODY": "This little box next to the value shows whether you've moved the slider for that scale. It turns green with a checkmark as soon as you change the value for the first time — an easy way to see which scales you've already rated.",
+    "SCALES_STATUS_BODY": "This little box next to the value shows whether you've moved the slider for that scale. It turns green with a checkmark as soon as you change the value for the first time - an easy way to see which scales you've already rated.",
     "SCALES_PERFORMANCE_TITLE": "Note: this scale is reversed",
-    "SCALES_PERFORMANCE_BODY": "Unlike the other scales, for \"Performance\" a higher value means worse performance, and a lower value means better performance — pay attention to the labels below the slider.",
+    "SCALES_PERFORMANCE_BODY": "Unlike the other scales, for \"Performance\" a higher value means worse performance, and a lower value means better performance - pay attention to the labels below the slider.",
     "SCALES_NEXT_TITLE": "Continuing",
     "SCALES_NEXT_BODY": "You need to move every slider at least once before the \"Next\" button becomes active.",
     "COMP_TITLE": "Factor comparison",
-    "COMP_BODY": "Here you choose which of two factors had a greater impact on your overall workload — click one of them. This repeats for a few pairs, and the result is used to calculate the weighted score."
+    "COMP_BODY": "Here you choose which of two factors had a greater impact on your overall workload - click one of them. This repeats for a few pairs, and the result is used to calculate the weighted score."
   },
   "SCALE": {
     "MENTAL_DEMAND": {
@@ -99,7 +139,7 @@
       "DESC_INSTRUCTIONS": "How much mental and perceptual activity did the task require? Was the task easy or hard, simple or complex, did it require precision or was it forgiving?",
       "DESC_SCALES": "How much mental and perceptual activity did the task require? Was it easy or hard, simple or complex?",
       "DESC_COMPARISONS": "How much mental and perceptual activity did the task require? Was it easy or hard, simple or complex?",
-      "DESC_DETAILED": "This scale reflects how much thinking, deciding, calculating, remembering, looking, or searching the task required. A mentally demanding task forces you to concentrate, hold information in mind, and process it quickly, even if it requires little physical effort. Consider both the amount of mental activity and how exacting or forgiving the task was — a complex task that allows mistakes can feel less demanding than a simple task that must be performed perfectly.",
+      "DESC_DETAILED": "This scale reflects how much thinking, deciding, calculating, remembering, looking, or searching the task required. A mentally demanding task forces you to concentrate, hold information in mind, and process it quickly, even if it requires little physical effort. Consider both the amount of mental activity and how exacting or forgiving the task was - a complex task that allows mistakes can feel less demanding than a simple task that must be performed perfectly.",
       "EXAMPLE": "For example, mentally solving a multi-step math problem in your head, or trying to remember a long sequence of instructions while simultaneously deciding what to do next, would register as high Mental Demand. Reading a single sentence and clicking a button would register as low Mental Demand.",
       "LABEL_LOW": "Very Low",
       "LABEL_HIGH": "Very High"
@@ -109,7 +149,7 @@
       "DESC_INSTRUCTIONS": "How much physical activity did the task require? Was the task easy or demanding, slow or fast, restful or strenuous?",
       "DESC_SCALES": "How much physical activity did the task require? Was it easy or demanding, slow or fast?",
       "DESC_COMPARISONS": "How much physical activity did the task require? Was it easy or demanding, slow or fast?",
-      "DESC_DETAILED": "This scale captures how much physical activity the task required — pushing, pulling, turning, controlling, or activating something. It also reflects whether the pace was slow or brisk, and whether the activity felt restful or laborious. A task can be physically demanding even without requiring great strength, if it involves frequent or sustained movement.",
+      "DESC_DETAILED": "This scale captures how much physical activity the task required - pushing, pulling, turning, controlling, or activating something. It also reflects whether the pace was slow or brisk, and whether the activity felt restful or laborious. A task can be physically demanding even without requiring great strength, if it involves frequent or sustained movement.",
       "EXAMPLE": "Typing continuously for an hour, repeatedly clicking and dragging objects, or holding a device steady for a long period would register as moderate to high Physical Demand. Sitting still and only occasionally pressing a key would register as very low Physical Demand.",
       "LABEL_LOW": "Very Low",
       "LABEL_HIGH": "Very High"
@@ -129,8 +169,8 @@
       "DESC_INSTRUCTIONS": "How successful do you think you were in accomplishing the task goals? How satisfied were you with your performance? Scale is inverted: a high value indicates excellent performance.",
       "DESC_SCALES": "How successful do you think you were in accomplishing the task? How satisfied were you with your performance?",
       "DESC_COMPARISONS": "How successful do you think you were in accomplishing the task? How satisfied were you with your performance?",
-      "DESC_DETAILED": "This scale reflects how successful you think you were in accomplishing the goals of the task, and how satisfied you were with your own performance. Unlike the other scales, a high value here means you performed well — the scale runs from Perfect on one end to Unsuccessful on the other, regardless of how much effort it took to get there.",
-      "EXAMPLE": "If you completed all parts of the task accurately and felt confident in the result, that would register as Perfect performance. If you made many mistakes, missed the goal, or felt you failed at what was asked, that would register as Unsuccessful performance — even if you tried very hard.",
+      "DESC_DETAILED": "This scale reflects how successful you think you were in accomplishing the goals of the task, and how satisfied you were with your own performance. Unlike the other scales, a high value here means you performed well - the scale runs from Perfect on one end to Unsuccessful on the other, regardless of how much effort it took to get there.",
+      "EXAMPLE": "If you completed all parts of the task accurately and felt confident in the result, that would register as Perfect performance. If you made many mistakes, missed the goal, or felt you failed at what was asked, that would register as Unsuccessful performance - even if you tried very hard.",
       "LABEL_LOW": "Unsuccessful",
       "LABEL_HIGH": "Perfect"
     },
@@ -139,7 +179,7 @@
       "DESC_INSTRUCTIONS": "How hard did you have to work (mentally and physically) to achieve your level of performance?",
       "DESC_SCALES": "How hard did you have to work (mentally and physically) to achieve your level of performance?",
       "DESC_COMPARISONS": "How hard did you have to work (mentally and physically) to achieve your level of performance?",
-      "DESC_DETAILED": "This scale reflects how hard you had to work, mentally and physically, to reach your level of performance. It captures the level of exertion regardless of whether the outcome was good or bad — you can work extremely hard and still perform poorly, or barely work at all and still perform well.",
+      "DESC_DETAILED": "This scale reflects how hard you had to work, mentally and physically, to reach your level of performance. It captures the level of exertion regardless of whether the outcome was good or bad - you can work extremely hard and still perform poorly, or barely work at all and still perform well.",
       "EXAMPLE": "Pushing yourself to stay focused through a long, difficult task while constantly correcting mistakes would register as high Effort. Completing a task effortlessly, almost without thinking about it, would register as low Effort.",
       "LABEL_LOW": "Very Low",
       "LABEL_HIGH": "Very High"

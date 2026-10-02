@@ -20,7 +20,7 @@ export const sessionGuard: CanActivateFn = (route) => {
     if (!state.session()!.config.includeWeightings) return router.createUrlTree(['/results']);
   }
 
-  if (path === 'results') {
+  if (path === 'results' || path === 'post-session') {
     if (!hasSession) return router.createUrlTree(['/login']);
     if (!hasScales) return router.createUrlTree(['/scales']);
   }

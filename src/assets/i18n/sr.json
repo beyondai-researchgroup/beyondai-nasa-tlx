@@ -2,6 +2,16 @@
   "APP": {
     "TEAM": "BeyondAI"
   },
+  "LINK": {
+    "LOADING": "Proveravam link…",
+    "ALREADY_TITLE": "Upitnik je već popunjen",
+    "ALREADY_TEXT": "Već ste popunili ovaj upitnik, hvala Vam! Možete zatvoriti ovu stranicu.",
+    "ERROR_TITLE": "Link nije važeći",
+    "ERROR_EXPIRED": "Ovaj link je istekao (linkovi važe 24 sata). Obratite se istraživaču kako bi Vam poslao novi link.",
+    "ERROR_NOT_FOUND": "Ovaj link nije prepoznat. Proverite da li ste kopirali ceo link iz mejla, ili se obratite istraživaču.",
+    "ERROR_NOT_ACTIVE": "Ovaj link trenutno nije aktivan. Obratite se istraživaču.",
+    "ERROR_SERVER": "Došlo je do greške pri proveri linka. Pokušajte ponovo malo kasnije."
+  },
   "LOGIN": {
     "TITLE": "NASA Task Load Index",
     "SUBTITLE": "Evaluacija mentalnog opterećenja",
@@ -9,6 +19,8 @@
     "SESSION_INTRO": "Uvodna sesija",
     "SESSION_1": "Sesija 1",
     "SESSION_2": "Sesija 2",
+    "SESSION_HYBRID": "Hibridna sesija",
+    "SESSION_STANDALONE": "Samostalna sesija",
     "PARTICIPANT_LABEL": "ID ispitanika",
     "PARTICIPANT_PLACEHOLDER": "npr. P-001",
     "PARTICIPANT_ERROR": "ID ispitanika je obavezno polje",
@@ -21,7 +33,7 @@
   "INSTRUCTIONS": {
     "TITLE": "Uputstvo za skale",
     "LEAD": "Pažljivo pročitajte opis svake skale pre nego što pristupite ocenjivanju. Svaka skala meri drugačiji aspekt mentalnog opterećenja.",
-    "NEXT": "Dalje — Ocenjivanje skala →",
+    "NEXT": "Dalje - Ocenjivanje skala →",
     "CLICK_HINT": "Kliknite za više detalja →",
     "MODAL_EXAMPLE_LABEL": "Primer",
     "MODAL_CLOSE": "Zatvori"
@@ -30,7 +42,7 @@
     "TITLE": "Ocenjivanje skala",
     "LEAD": "Za svaku skalu pomerite klizač na poziciju koja najbolje opisuje vaše iskustvo tokom zadatka.",
     "BACK": "← Nazad",
-    "NEXT_COMPARE": "Dalje — Poređenje faktora →",
+    "NEXT_COMPARE": "Dalje - Poređenje faktora →",
     "FINISH": "Završi →",
     "TOUCH_HINT": "Pomerite svaki klizač da biste nastavili ({{count}}/6)",
     "STATUS_DONE": "Skala je ocenjena",
@@ -68,10 +80,38 @@
     "SAVE_SAVED": "Rezultati sačuvani",
     "SAVE_ERROR": "Rezultati nisu sačuvani u bazu. Preuzmite JSON kao rezervnu kopiju.",
     "SAVE_RETRY": "Pokušaj ponovo",
-    "PERF_NOTE": "Napomena: vrednost Performanse je prikazana po TLX konvenciji — 0 označava savršen učinak, a 100 neuspešan.",
+    "PERF_NOTE": "Napomena: vrednost Performanse je prikazana po TLX konvenciji - 0 označava savršen učinak, a 100 neuspešan.",
     "SESSION_DONE_TITLE": "Sesija je završena",
     "SESSION_DONE_TEXT": "Vaši odgovori su uspešno sačuvani i ova sesija je označena kao završena. Hvala na učešću!",
-    "SESSION_DONE_OK": "U redu"
+    "SESSION_DONE_OK": "U redu",
+    "INTRO_SESSION_DONE_TITLE": "Uvodna sesija je završena",
+    "INTRO_SESSION_DONE_TEXT": "Uspešno ste završili uvodnu sesiju. Istraživači će vas kontaktirati u vezi sa daljim koracima. Sada možete zatvoriti ovu karticu.",
+    "INTRO_SESSION_DONE_OK": "U redu"
+  },
+  "POST_SESSION": {
+    "TITLE": "Još samo par pitanja",
+    "INTRO": "Pre nego što je sesija u potpunosti završena, molimo Vas da odgovorite na nekoliko kratkih pitanja o sesiji koju ste upravo odradili.",
+    "Q1": "Koliko Vam je bilo jasno šta je trebalo da uradite tokom ove sesije?",
+    "Q1_LOW": "Nejasno",
+    "Q1_HIGH": "Potpuno jasno",
+    "Q2": "Koliko Vam je bilo lako da se snađete tokom ove sesije, bez obzira na eventualne poteškoće?",
+    "Q2_LOW": "Veoma teško",
+    "Q2_HIGH": "Veoma lako",
+    "Q3": "Koliko ste zadovoljni sopstvenim učinkom tokom ove sesije?",
+    "Q3_LOW": "Nimalo zadovoljan/na",
+    "Q3_HIGH": "Izuzetno zadovoljan/na",
+    "Q4_INTRO": "Koliko Vam je uvodna sesija pomogla da se pripremite za dalje korake istraživanja?",
+    "Q4_AI": "Koliko Vam je AI asistent pomogao da donesete odluku o Pull Request-u?",
+    "Q4_REPORT": "Koliko Vam je dokumentacija (izveštaj) pomogla da donesete odluku o Pull Request-u?",
+    "Q4_HYBRID": "Koliko Vam je kombinacija dokumentacije i AI chat-a pomogla da donesete odluku o Pull Request-u?",
+    "Q4_LOW": "Nimalo",
+    "Q4_HIGH": "Izuzetno",
+    "Q5": "Da li biste nešto izdvojili u vezi sa ovom sesijom — poteškoće, nejasnoće ili predlozi? (opciono)",
+    "Q5_PLACEHOLDER": "Vaš odgovor (opciono)...",
+    "SUBMIT": "Pošalji",
+    "SAVING": "Slanje...",
+    "SAVE_ERROR": "Odgovori nisu sačuvani. Proverite internet konekciju i pokušajte ponovo.",
+    "SAVE_RETRY": "Pokušaj ponovo"
   },
   "TOUR": {
     "SKIP": "Preskoči",
@@ -83,15 +123,15 @@
     "SCALES_INTRO_TITLE": "Ocenjivanje skala",
     "SCALES_INTRO_BODY": "Za svaku skalu pomerite klizač na poziciju od 0 do 100 koja najbolje opisuje vaše iskustvo tokom prethodne sesije.",
     "SCALES_INFO_TITLE": "Detaljnije objašnjenje",
-    "SCALES_INFO_BODY": "Ako niste sigurni šta skala tačno meri, kliknite na ovu ikonicu za detaljan opis i primer — isto kao na prethodnoj stranici.",
+    "SCALES_INFO_BODY": "Ako niste sigurni šta skala tačno meri, kliknite na ovu ikonicu za detaljan opis i primer - isto kao na prethodnoj stranici.",
     "SCALES_STATUS_TITLE": "Oznaka završenosti",
-    "SCALES_STATUS_BODY": "Ovaj kvadratić pored vrednosti pokazuje da li ste pomerili klizač za tu skalu. Postaje zelen sa kvačicom čim prvi put promenite vrednost — tako lako proveravate koje skale ste već ocenili.",
+    "SCALES_STATUS_BODY": "Ovaj kvadratić pored vrednosti pokazuje da li ste pomerili klizač za tu skalu. Postaje zelen sa kvačicom čim prvi put promenite vrednost - tako lako proveravate koje skale ste već ocenili.",
     "SCALES_PERFORMANCE_TITLE": "Pažnja: ova skala je obrnuta",
-    "SCALES_PERFORMANCE_BODY": "Za razliku od ostalih skala, kod „Performanse” veća vrednost znači lošiji učinak, a manja vrednost bolji učinak — obratite pažnju na oznake ispod klizača.",
+    "SCALES_PERFORMANCE_BODY": "Za razliku od ostalih skala, kod „Performanse” veća vrednost znači lošiji učinak, a manja vrednost bolji učinak - obratite pažnju na oznake ispod klizača.",
     "SCALES_NEXT_TITLE": "Nastavak",
     "SCALES_NEXT_BODY": "Morate pomeriti svaki klizač bar jednom pre nego što dugme „Dalje\" postane aktivno.",
     "COMP_TITLE": "Poređenje faktora",
-    "COMP_BODY": "Ovde birate koji je od dva faktora više uticao na vaše ukupno opterećenje — kliknite na jedan od njih. Ovo se ponavlja za nekoliko parova, a rezultat se koristi za izračunavanje ponderisanog skora."
+    "COMP_BODY": "Ovde birate koji je od dva faktora više uticao na vaše ukupno opterećenje - kliknite na jedan od njih. Ovo se ponavlja za nekoliko parova, a rezultat se koristi za izračunavanje ponderisanog skora."
   },
   "SCALE": {
     "MENTAL_DEMAND": {
@@ -99,7 +139,7 @@
       "DESC_INSTRUCTIONS": "Koliko je mentalne i perceptivne aktivnosti zahtevao zadatak? Da li je zadatak bio lak ili težak, jednostavan ili složen, zahtevao preciznost ili opušten?",
       "DESC_SCALES": "Koliko je mentalne i perceptivne aktivnosti zahtevao zadatak? Da li je bio lak ili težak, jednostavan ili složen?",
       "DESC_COMPARISONS": "Koliko je mentalne i perceptivne aktivnosti zahtevao zadatak? Da li je bio lak ili težak, jednostavan ili složen?",
-      "DESC_DETAILED": "Ova skala pokazuje koliko je razmišljanja, odlučivanja, računanja, pamćenja, gledanja ili traženja zahtevao zadatak. Mentalno zahtevan zadatak tera vas da se koncentrišete, pamtite informacije i brzo ih obrađujete, čak i kada zahteva malo fizičkog napora. Razmislite i o količini mentalne aktivnosti i o tome koliko je zadatak bio strog ili opraštajuć — složen zadatak koji dozvoljava greške može delovati manje zahtevno od jednostavnog zadatka koji mora biti izveden besprekorno.",
+      "DESC_DETAILED": "Ova skala pokazuje koliko je razmišljanja, odlučivanja, računanja, pamćenja, gledanja ili traženja zahtevao zadatak. Mentalno zahtevan zadatak tera vas da se koncentrišete, pamtite informacije i brzo ih obrađujete, čak i kada zahteva malo fizičkog napora. Razmislite i o količini mentalne aktivnosti i o tome koliko je zadatak bio strog ili opraštajuć - složen zadatak koji dozvoljava greške može delovati manje zahtevno od jednostavnog zadatka koji mora biti izveden besprekorno.",
       "EXAMPLE": "Na primer, rešavanje matematičkog problema sa više koraka u glavi, ili pokušaj da se zapamti dug niz instrukcija dok istovremeno odlučujete šta dalje da radite, predstavljaju visok mentalni zahtev. Čitanje jedne rečenice i klik na dugme predstavljaju nizak mentalni zahtev.",
       "LABEL_LOW": "Veoma nisko",
       "LABEL_HIGH": "Veoma visoko"
@@ -109,7 +149,7 @@
       "DESC_INSTRUCTIONS": "Koliko je fizičke aktivnosti zahtevao zadatak? Da li je zadatak bio lak ili naporan, spor ili brz, odmoran ili naporan?",
       "DESC_SCALES": "Koliko je fizičke aktivnosti zahtevao zadatak? Da li je bio lak ili naporan, spor ili brz?",
       "DESC_COMPARISONS": "Koliko je fizičke aktivnosti zahtevao zadatak? Da li je bio lak ili naporan, spor ili brz?",
-      "DESC_DETAILED": "Ova skala pokazuje koliko je fizičke aktivnosti zahtevao zadatak — guranje, vučenje, okretanje, kontrolisanje ili aktiviranje nečega. Takođe odražava da li je tempo bio spor ili brz, i da li je aktivnost bila odmarajuća ili naporna. Zadatak može biti fizički zahtevan i bez potrebe za velikom snagom, ako uključuje česte ili dugotrajne pokrete.",
+      "DESC_DETAILED": "Ova skala pokazuje koliko je fizičke aktivnosti zahtevao zadatak - guranje, vučenje, okretanje, kontrolisanje ili aktiviranje nečega. Takođe odražava da li je tempo bio spor ili brz, i da li je aktivnost bila odmarajuća ili naporna. Zadatak može biti fizički zahtevan i bez potrebe za velikom snagom, ako uključuje česte ili dugotrajne pokrete.",
       "EXAMPLE": "Neprekidno kucanje tokom čitavog sata, učestalo klikanje i prevlačenje objekata, ili dugo držanje uređaja u stabilnom položaju predstavljaju umeren do visok fizički zahtev. Mirno sedenje i samo povremeno pritiskanje tastera predstavljaju veoma nizak fizički zahtev.",
       "LABEL_LOW": "Veoma nisko",
       "LABEL_HIGH": "Veoma visoko"
@@ -129,8 +169,8 @@
       "DESC_INSTRUCTIONS": "Koliko uspešno mislite da ste obavili zadatak koji su od vas tražili? Koliko ste zadovoljni/a svojim učinkom? Skala je invertovana: visoka vrednost znači odličnu performansu.",
       "DESC_SCALES": "Koliko uspešno mislite da ste obavili zadatak? Koliko ste zadovoljni/a svojim učinkom?",
       "DESC_COMPARISONS": "Koliko uspešno mislite da ste obavili zadatak? Koliko ste zadovoljni/a svojim učinkom?",
-      "DESC_DETAILED": "Ova skala pokazuje koliko uspešno mislite da ste ostvarili ciljeve zadatka i koliko ste zadovoljni svojim učinkom. Za razliku od ostalih skala, visoka vrednost ovde znači da ste se dobro pokazali — skala ide od Savršeno na jednom kraju do Neuspešno na drugom, nezavisno od toga koliko truda je bilo potrebno da se do toga dođe.",
-      "EXAMPLE": "Ako ste uspešno i precizno završili sve delove zadatka i osećate se sigurno u rezultat, to predstavlja Savršen učinak. Ako ste pravili mnogo grešaka, propustili cilj ili osećate da niste uspeli u traženom, to predstavlja Neuspešan učinak — i to bez obzira na to koliko se trudili.",
+      "DESC_DETAILED": "Ova skala pokazuje koliko uspešno mislite da ste ostvarili ciljeve zadatka i koliko ste zadovoljni svojim učinkom. Za razliku od ostalih skala, visoka vrednost ovde znači da ste se dobro pokazali - skala ide od Savršeno na jednom kraju do Neuspešno na drugom, nezavisno od toga koliko truda je bilo potrebno da se do toga dođe.",
+      "EXAMPLE": "Ako ste uspešno i precizno završili sve delove zadatka i osećate se sigurno u rezultat, to predstavlja Savršen učinak. Ako ste pravili mnogo grešaka, propustili cilj ili osećate da niste uspeli u traženom, to predstavlja Neuspešan učinak - i to bez obzira na to koliko se trudili.",
       "LABEL_LOW": "Neuspešno",
       "LABEL_HIGH": "Savršeno"
     },
@@ -139,7 +179,7 @@
       "DESC_INSTRUCTIONS": "Koliko naporno ste morali da radite (mentalno i fizički) da biste postigli taj nivo učinka?",
       "DESC_SCALES": "Koliko naporno ste morali da radite (mentalno i fizički) da biste postigli taj nivo učinka?",
       "DESC_COMPARISONS": "Koliko naporno ste morali da radite (mentalno i fizički) da biste postigli taj nivo učinka?",
-      "DESC_DETAILED": "Ova skala pokazuje koliko naporno ste morali da radite, mentalno i fizički, da biste postigli svoj nivo učinka. Ona odražava nivo uloženog napora bez obzira na to da li je ishod bio dobar ili loš — možete se izuzetno truditi i ipak postići slab učinak, ili se gotovo ne truditi i ipak postići dobar učinak.",
+      "DESC_DETAILED": "Ova skala pokazuje koliko naporno ste morali da radite, mentalno i fizički, da biste postigli svoj nivo učinka. Ona odražava nivo uloženog napora bez obzira na to da li je ishod bio dobar ili loš - možete se izuzetno truditi i ipak postići slab učinak, ili se gotovo ne truditi i ipak postići dobar učinak.",
       "EXAMPLE": "Naprezanje da ostanete fokusirani tokom dugog i teškog zadatka, uz konstantno ispravljanje grešaka, predstavlja visok napor. Završavanje zadatka bez napora, skoro automatski, predstavlja nizak napor.",
       "LABEL_LOW": "Veoma nisko",
       "LABEL_HIGH": "Veoma visoko"

@@ -1,0 +1,136 @@
+<div class="page-wrapper">
+  <div class="post-session-container">
+
+    <header class="post-session-header">
+      <h1 class="post-session-title">{{ 'POST_SESSION.TITLE' | translate }}</h1>
+      <p class="post-session-intro">{{ 'POST_SESSION.INTRO' | translate }}</p>
+    </header>
+
+    <div class="card post-session-card">
+      <!-- Q1 -->
+      <div class="likert-question">
+        <p class="likert-prompt">{{ 'POST_SESSION.Q1' | translate }}</p>
+        <div class="likert-row">
+          <span class="likert-anchor">{{ 'POST_SESSION.Q1_LOW' | translate }}</span>
+          <div class="likert-buttons">
+            @for (v of likertValues; track v) {
+              <button type="button" class="likert-btn" [class.likert-btn--active]="q1() === v" (click)="q1.set(v)">
+                {{ v }}
+              </button>
+            }
+          </div>
+          <span class="likert-anchor">{{ 'POST_SESSION.Q1_HIGH' | translate }}</span>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="likert-question">
+        <p class="likert-prompt">{{ 'POST_SESSION.Q2' | translate }}</p>
+        <div class="likert-row">
+          <span class="likert-anchor">{{ 'POST_SESSION.Q2_LOW' | translate }}</span>
+          <div class="likert-buttons">
+            @for (v of likertValues; track v) {
+              <button type="button" class="likert-btn" [class.likert-btn--active]="q2() === v" (click)="q2.set(v)">
+                {{ v }}
+              </button>
+            }
+          </div>
+          <span class="likert-anchor">{{ 'POST_SESSION.Q2_HIGH' | translate }}</span>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="likert-question">
+        <p class="likert-prompt">{{ 'POST_SESSION.Q3' | translate }}</p>
+        <div class="likert-row">
+          <span class="likert-anchor">{{ 'POST_SESSION.Q3_LOW' | translate }}</span>
+          <div class="likert-buttons">
+            @for (v of likertValues; track v) {
+              <button type="button" class="likert-btn" [class.likert-btn--active]="q3() === v" (click)="q3.set(v)">
+                {{ v }}
+              </button>
+            }
+          </div>
+          <span class="likert-anchor">{{ 'POST_SESSION.Q3_HIGH' | translate }}</span>
+        </div>
+      </div>
+
+      <!-- Q4 (wording varies by session type) -->
+      <div class="likert-question">
+        <p class="likert-prompt">{{ q4LabelKey() | translate }}</p>
+        <div class="likert-row">
+          <span class="likert-anchor">{{ 'POST_SESSION.Q4_LOW' | translate }}</span>
+          <div class="likert-buttons">
+            @for (v of likertValues; track v) {
+              <button type="button" class="likert-btn" [class.likert-btn--active]="q4() === v" (click)="q4.set(v)">
+                {{ v }}
+              </button>
+            }
+          </div>
+          <span class="likert-anchor">{{ 'POST_SESSION.Q4_HIGH' | translate }}</span>
+        </div>
+      </div>
+
+      <!-- Q5 (free text, optional) -->
+      <div class="text-question">
+        <label class="text-question-label" for="post-session-q5">{{ 'POST_SESSION.Q5' | translate }}</label>
+        <textarea
+          id="post-session-q5"
+          class="text-question-input"
+          rows="4"
+          maxlength="2000"
+          [placeholder]="'POST_SESSION.Q5_PLACEHOLDER' | translate"
+          [value]="q5()"
+          (input)="q5.set($any($event.target).value)"
+        ></textarea>
+      </div>
+
+      @if (submitStatus() === 'error') {
+        <div class="save-banner save-banner--error">
+          <span>{{ 'POST_SESSION.SAVE_ERROR' | translate }}</span>
+          <button type="button" class="save-retry-btn" (click)="retrySubmit()">
+            {{ 'POST_SESSION.SAVE_RETRY' | translate }}
+          </button>
+        </div>
+      }
+
+      <button
+        type="button"
+        class="btn-primary post-session-submit"
+        [disabled]="!canSubmit() || submitStatus() === 'saving'"
+        (click)="submit()"
+      >
+        {{ submitStatus() === 'saving' ? ('POST_SESSION.SAVING' | translate) : ('POST_SESSION.SUBMIT' | translate) }}
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Study flow: session-finished notification (shown only after this questionnaire is submitted) -->
+@if (showSessionDonePopup()) {
+  <div class="session-done-backdrop">
+    <div class="session-done-dialog card" role="dialog" aria-modal="true">
+      <span class="session-done-icon" aria-hidden="true">✓</span>
+      <h2 class="session-done-title">{{ 'RESULTS.SESSION_DONE_TITLE' | translate }}</h2>
+      <p class="session-done-text">{{ 'RESULTS.SESSION_DONE_TEXT' | translate }}</p>
+      <button type="button" class="btn-primary session-done-btn" (click)="closeSessionDonePopup()">
+        {{ 'RESULTS.SESSION_DONE_OK' | translate }}
+      </button>
+    </div>
+  </div>
+}
+
+<!-- Intro session specifically: no redirect back into code-review-ai afterward. -->
+@if (showIntroDonePopup()) {
+  <div class="session-done-backdrop">
+    <div class="session-done-dialog card" role="dialog" aria-modal="true">
+      <span class="session-done-icon" aria-hidden="true">✓</span>
+      <h2 class="session-done-title">{{ 'RESULTS.INTRO_SESSION_DONE_TITLE' | translate }}</h2>
+      <p class="session-done-text">{{ 'RESULTS.INTRO_SESSION_DONE_TEXT' | translate }}</p>
+      <button type="button" class="btn-primary session-done-btn" (click)="closeIntroDonePopup()">
+        {{ 'RESULTS.INTRO_SESSION_DONE_OK' | translate }}
+      </button>
+    </div>
+  </div>
+}

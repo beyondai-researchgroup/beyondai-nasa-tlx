@@ -1,7 +1,10 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
 
-export type SessionId = 'Uvodna sesija' | 'Sesija 1' | 'Sesija 2';
+// 'Samostalna sesija' (Part D of the platform re-architecture, 2026-09-07) — the standalone
+// magic-link entry point's session label (see LinkAccessComponent), for a research that doesn't
+// use code-review-ai's Intro/AI/Report flow at all.
+export type SessionId = 'Uvodna sesija' | 'Sesija 1' | 'Sesija 2' | 'Hibridna sesija' | 'Samostalna sesija';
 
 export type ScaleName =
   | 'Mentalni zahtev'
@@ -14,6 +17,10 @@ export type ScaleName =
 export interface TlxConfig {
   calculateScores: boolean;
   includeWeightings: boolean;
+  /** Per-app participant timer (2026-09-11) — timerMinutes only meaningful when timerEnabled. */
+  timerEnabled: boolean;
+  timerMinutes: number | null;
+  isTestParticipant: boolean;
 }
 
 export interface TlxSession {
@@ -26,6 +33,13 @@ export interface TlxSession {
    * When present, the results page marks that row finished after saving the TLX result.
    */
   dbSessionId?: number;
+  /**
+   * The real (non-test) participant's own personal Code Review link token, resolved alongside
+   * the handoff token — used to send them back to that exact link on "session finished" instead
+   * of a bare BeyondAI URL they could no longer use (the bare-id login is test-participants-only
+   * now). Null for a test participant, or if no valid link token could be resolved.
+   */
+  codeReviewLinkToken?: string | null;
 }
 
 export interface TlxScaleValues {
@@ -79,6 +93,30 @@ export class TlxStateService {
   readonly comparisonsCompletedAt = this._comparisonsCompletedAt.asReadonly();
   readonly scalesTouched = this._scalesTouched.asReadonly();
   readonly tourShownPages = this._tourShownPages.asReadonly();
+
+  // Per-app participant timer (2026-09-11) — the timer itself lives in AppComponent (mounted for
+  // the whole session, unlike a single-page test flow), but the currently-active page (scales,
+  // typically) may be holding in-progress values that haven't been pushed into this shared state
+  // yet (see ScalesComponent's own persistCurrentValues, only called on submit/goBack — not on
+  // every slider drag, for performance). Whichever page is mounted registers a "flush" callback
+  // here so the global expiry handler can ask it to commit its live progress before building the
+  // timed-out save payload. At most one page is ever mounted at a time in this app's routing, so
+  // a single slot is enough — no stack needed.
+  private flushCallback: (() => void) | null = null;
+
+  registerFlush(fn: () => void): void {
+    this.flushCallback = fn;
+  }
+
+  unregisterFlush(fn: () => void): void {
+    if (this.flushCallback === fn) this.flushCallback = null;
+  }
+
+  /** Best-effort — calls whatever page is currently registered, if any, so its live progress
+   *  lands in this shared state before a timed-out save reads it. */
+  flushCurrentPage(): void {
+    this.flushCallback?.();
+  }
 
   constructor() {
     this.restore();

@@ -1,4 +1,4 @@
-import { Component, computed, HostListener, inject, signal } from '@angular/core';
+import { Component, computed, HostListener, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TlxStateService } from '../services/tlx-state.service';
@@ -22,7 +22,7 @@ interface ScaleConfig {
   templateUrl: './scales.component.html',
   styleUrl: './scales.component.scss',
 })
-export class ScalesComponent {
+export class ScalesComponent implements OnInit, OnDestroy {
   private state = inject(TlxStateService);
   private router = inject(Router);
   private tour = inject(TourService);
@@ -209,6 +209,20 @@ export class ScalesComponent {
       this.touchedKeys.set(next);
       this.state.setScalesTouched([...next]);
     }
+  }
+
+  // Per-app participant timer (2026-09-11) — registered while this page is mounted so a global
+  // timer expiry can pull in whatever's currently on the sliders before saving, even if the
+  // participant never clicked Submit/Back (which are the only two points that normally call
+  // persistCurrentValues()).
+  private readonly flushFn = () => this.persistCurrentValues();
+
+  ngOnInit(): void {
+    this.state.registerFlush(this.flushFn);
+  }
+
+  ngOnDestroy(): void {
+    this.state.unregisterFlush(this.flushFn);
   }
 
   private persistCurrentValues(): void {

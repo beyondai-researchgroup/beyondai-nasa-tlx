@@ -12,12 +12,16 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
 
   try {
     const sql = getDb();
-    const config = await getTlxConfigForParticipant(sql, participantId);
-    if (!config) {
+    const result = await getTlxConfigForParticipant(sql, participantId);
+    if (result.status === 'not_found') {
       sendJson(res, 404, { error: 'Participant not found' });
       return;
     }
-    sendJson(res, 200, config);
+    if (result.status === 'ambiguous') {
+      sendJson(res, 409, { error: 'AMBIGUOUS_PARTICIPANT_ID' });
+      return;
+    }
+    sendJson(res, 200, result.config);
   } catch (err) {
     console.error('[DB] tlx-config error:', err);
     sendJson(res, 500, { error: 'Database error' });

@@ -83,7 +83,7 @@
       </div>
     }
 
-    <!-- Save status banner: kept outside showResultsSection on purpose — it shows no scale
+    <!-- Save status banner: kept outside showResultsSection on purpose - it shows no scale
          data, just save progress/errors, and the retry button is the only way to recover a
          failed save when the rest of the page is hidden. -->
     @if (saveStatus() === 'saving') {
@@ -103,17 +103,3 @@
 
   </div>
 </div>
-
-<!-- Study flow: session-finished notification (BeyondAI handoff only) -->
-@if (showSessionDonePopup()) {
-  <div class="session-done-backdrop">
-    <div class="session-done-dialog card" role="dialog" aria-modal="true">
-      <span class="session-done-icon" aria-hidden="true">✓</span>
-      <h2 class="session-done-title">{{ 'RESULTS.SESSION_DONE_TITLE' | translate }}</h2>
-      <p class="session-done-text">{{ 'RESULTS.SESSION_DONE_TEXT' | translate }}</p>
-      <button type="button" class="btn-primary session-done-btn" (click)="closeSessionDonePopup()">
-        {{ 'RESULTS.SESSION_DONE_OK' | translate }}
-      </button>
-    </div>
-  </div>
-}

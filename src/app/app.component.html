@@ -1,3 +1,8 @@
 <app-global-header></app-global-header>
+@if (tlxState.session()?.config?.timerEnabled && !tlxState.resultSaved()) {
+  <div class="global-timer-bar">
+    <app-timer-display [minutes]="tlxState.session()!.config.timerMinutes!" (expired)="onTimerExpired()"></app-timer-display>
+  </div>
+}
 <router-outlet></router-outlet>
 <app-tour-overlay />

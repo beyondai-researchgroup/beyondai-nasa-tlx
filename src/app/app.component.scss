@@ -3,3 +3,14 @@
   flex-direction: column;
   min-height: 100vh;
 }
+
+// Per-app participant timer (2026-09-11) — hosted globally (see AppComponent), so it needs its
+// own small positioning wrapper rather than living inside any one page's layout.
+.global-timer-bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 16px;
+}

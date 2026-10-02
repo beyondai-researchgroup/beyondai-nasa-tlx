@@ -13,6 +13,12 @@ export const routes: Routes = [
     loadComponent: () => import('./auto-start/auto-start.component').then(m => m.AutoStartComponent),
   },
   {
+    // Standalone magic-link entry (Part D of the platform re-architecture) — for a research
+    // using NASA-TLX as its own module, independent of code-review-ai's handoff above.
+    path: 'link/:token',
+    loadComponent: () => import('./link-access/link-access.component').then(m => m.LinkAccessComponent),
+  },
+  {
     path: 'instructions',
     loadComponent: () => import('./instructions/instructions.component').then(m => m.InstructionsComponent),
     canActivate: [sessionGuard],
@@ -30,6 +36,13 @@ export const routes: Routes = [
   {
     path: 'results',
     loadComponent: () => import('./results/results.component').then(m => m.ResultsComponent),
+    canActivate: [sessionGuard],
+  },
+  {
+    // Post-session questionnaire (2026-10-01) — shown after the TLX result is saved, before the
+    // study session is actually marked finished. Study-flow sessions only (dbSessionId defined).
+    path: 'post-session',
+    loadComponent: () => import('./post-session/post-session.component').then(m => m.PostSessionComponent),
     canActivate: [sessionGuard],
   },
   { path: '**', redirectTo: 'login' },

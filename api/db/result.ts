@@ -27,7 +27,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
         "WeightPerf", "WeightEffort", "WeightFrust",
         "RawTLX", "WeightedTLX",
         "ConfigScores", "ConfigWeightings",
-        "DurationTotalSec", "DurationScalesSec", "DurationComparisonsSec"
+        "DurationTotalSec", "DurationScalesSec", "DurationComparisonsSec", "IsTimedOut"
       ) VALUES (
         ${b['participantId']}, ${b['sessionId']}, ${b['language']},
         ${b['mentalDemand']}, ${b['physicalDemand']}, ${b['temporalDemand']},
@@ -36,9 +36,13 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
         ${b['weightPerf']}, ${b['weightEffort']}, ${b['weightFrust']},
         ${b['rawTLX']}, ${b['weightedTLX']},
         ${b['configScores']}, ${b['configWeightings']},
-        ${b['durationTotalSec']}, ${b['durationScalesSec']}, ${b['durationComparisonsSec']}
+        ${b['durationTotalSec']}, ${b['durationScalesSec']}, ${b['durationComparisonsSec']}, ${b['isTimedOut'] === true}
       )
-      ON CONFLICT ("ParticipantId", "SessionId") DO UPDATE SET
+      -- Conflict target moved from (ParticipantId, SessionId) to (ParticipantGuid, SessionId) —
+      -- item 1 of admin-dashboard-andrejkatin's "platform improvements round 2" plan.
+      -- ParticipantGuid is auto-populated by a shared-DB trigger from ParticipantId before the
+      -- conflict check runs, so no change is needed here beyond the conflict target itself.
+      ON CONFLICT ("ParticipantGuid", "SessionId") DO UPDATE SET
         "Language" = EXCLUDED."Language",
         "MentalDemand" = EXCLUDED."MentalDemand",
         "PhysicalDemand" = EXCLUDED."PhysicalDemand",
@@ -59,6 +63,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
         "DurationTotalSec" = EXCLUDED."DurationTotalSec",
         "DurationScalesSec" = EXCLUDED."DurationScalesSec",
         "DurationComparisonsSec" = EXCLUDED."DurationComparisonsSec",
+        "IsTimedOut" = EXCLUDED."IsTimedOut",
         "CompletedAt" = NOW()
     `;
     sendJson(res, 201, { ok: true });

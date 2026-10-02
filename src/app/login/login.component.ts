@@ -38,6 +38,12 @@ export class LoginComponent {
       'Uvodna sesija': 'LOGIN.SESSION_INTRO',
       'Sesija 1': 'LOGIN.SESSION_1',
       'Sesija 2': 'LOGIN.SESSION_2',
+      // Never actually selectable here (see `sessions` above) — only reachable via the
+      // BeyondAI handoff (AutoStartComponent, experimental Hybrid mode, participant "004" only)
+      // or the standalone magic-link flow (LinkAccessComponent), neither of which calls this
+      // method. Present purely to satisfy Record<SessionId, string>'s exhaustiveness.
+      'Hibridna sesija': 'LOGIN.SESSION_HYBRID',
+      'Samostalna sesija': 'LOGIN.SESSION_STANDALONE',
     };
     return map[s];
   }

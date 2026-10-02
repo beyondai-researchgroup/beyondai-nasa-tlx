@@ -7,7 +7,6 @@ import { SCALE_NAMES, computeRawTLX, computeWeightedTLX, scaleValuesToRecord } f
 import { SCALE_I18N_KEYS } from '../utils/scale-keys';
 import { buildExportJson, buildFilename, downloadJson } from '../utils/export';
 import { DatabaseService, TlxResultDto } from '../services/database.service';
-import { BEYONDAI_URL } from '../utils/study';
 
 interface ScaleRow {
   name: ScaleName;
@@ -65,7 +64,6 @@ export class ResultsComponent implements OnInit {
 
   readonly saveStatus = signal<SaveStatus>('idle');
   readonly confirmingRestart = signal(false);
-  readonly showSessionDonePopup = signal(false);
 
   ngOnInit(): void {
     if (!this.isBrowser) return;
@@ -119,32 +117,18 @@ export class ResultsComponent implements OnInit {
       await this.db.saveTlxResult(dto);
       this.state.markResultSaved();
       this.saveStatus.set('saved');
-      await this.finishStudySession(session.participantId, session.dbSessionId);
+      // Post-session questionnaire (2026-10-01) — study flow (BeyondAI handoff) only. The
+      // session isn't actually marked finished yet; that now happens on the new page, right
+      // after the questionnaire is submitted (see PostSessionComponent). The standalone
+      // magic-link flow (Part D, no dbSessionId at all) is unaffected — stays on this page with
+      // no further step, exactly as before.
+      if (session.dbSessionId !== undefined) {
+        this.router.navigate(['/post-session']);
+      }
     } catch (err) {
       console.error('[TLX] saving result failed:', err);
       this.saveStatus.set('error');
     }
-  }
-
-  /**
-   * Study flow (BeyondAI handoff) only: flips the ParticipantSession flag and pops
-   * the "session finished" notification. A flag-update failure is logged but does
-   * not disturb the participant — the TLX result itself is already saved.
-   */
-  private async finishStudySession(participantId: string, dbSessionId: number | undefined): Promise<void> {
-    if (dbSessionId === undefined) return;
-    try {
-      await this.db.markSessionFinished(participantId, dbSessionId);
-    } catch (err) {
-      console.error('[TLX] marking study session finished failed:', err);
-    }
-    this.showSessionDonePopup.set(true);
-  }
-
-  /** OK on the "session finished" popup → clear local state and return to BeyondAI login. */
-  closeSessionDonePopup(): void {
-    this.state.reset();
-    window.location.href = BEYONDAI_URL;
   }
 
   private computeDurations(): {

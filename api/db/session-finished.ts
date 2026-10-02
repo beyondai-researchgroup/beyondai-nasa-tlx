@@ -14,25 +14,40 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
   const participantId = b?.['participantId'];
   const sessionId = b?.['sessionId'];
   if (!isNonEmptyString(participantId, 50) ||
-      typeof sessionId !== 'number' || !Number.isInteger(sessionId) || sessionId < 1 || sessionId > 3) {
-    sendJson(res, 400, { error: 'Invalid payload: participantId and sessionId (1-3) are required' });
+      typeof sessionId !== 'number' || !Number.isInteger(sessionId) || sessionId < 1 || sessionId > 4) {
+    sendJson(res, 400, { error: 'Invalid payload: participantId and sessionId (1-4) are required' });
     return;
   }
 
   try {
     const sql = getDb();
-    const rows = (await sql`
-      UPDATE "ParticipantSession"
-      SET "IsFinished" = TRUE
-      WHERE "ParticipantId" = ${participantId} AND "SessionId" = ${sessionId}
-      RETURNING "Id"
-    `) as unknown[];
-    if (rows.length === 0) {
-      sendJson(res, 404, { error: 'Participant session not found' });
+
+    const participantRows = (await sql`
+      SELECT "IsTestParticipant" FROM "Participant" WHERE "ParticipantId" = ${participantId} LIMIT 1
+    `) as { IsTestParticipant: boolean }[];
+    if (!participantRows.length) {
+      sendJson(res, 404, { error: 'Participant not found' });
       return;
     }
+
+    // A fixed test participant's IsFinished flag never changes — they keep re-running the same
+    // session indefinitely for other researchers to test against (see Participant.IsTestParticipant).
+    if (!participantRows[0].IsTestParticipant) {
+      const rows = (await sql`
+        UPDATE "ParticipantSession"
+        SET "IsFinished" = TRUE, "FinishedAt" = NOW()
+        WHERE "ParticipantId" = ${participantId} AND "SessionId" = ${sessionId}
+        RETURNING "Id"
+      `) as unknown[];
+      if (rows.length === 0) {
+        sendJson(res, 404, { error: 'Participant session not found' });
+        return;
+      }
+    }
     await notifyEegMarker('TLX_DONE');
-    if (sessionId === 3) {
+    if (sessionId === 3 || sessionId === 4) {
+      // Report (3) is the last of the normal 3-session flow; Hybrid (4, experimental — participant
+      // "004" only) is that participant's sole, terminal session — both should stop recording.
       await notifyEegStop();
     }
     sendJson(res, 200, { ok: true });
