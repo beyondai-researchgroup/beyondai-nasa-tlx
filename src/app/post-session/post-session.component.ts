@@ -101,12 +101,15 @@ export class PostSessionComponent {
    *  not right after the TLX scale. A flag-update failure is logged but does not disturb the
    *  participant — both the TLX result and this questionnaire's answer are already saved. */
   private async finishStudySession(participantId: string, dbSessionId: number): Promise<void> {
+    let protocol = false;
     try {
-      await this.db.markSessionFinished(participantId, dbSessionId);
+      protocol = (await this.db.markSessionFinished(participantId, dbSessionId)).protocol;
     } catch (err) {
       console.error('[TLX] marking study session finished failed:', err);
     }
-    if (dbSessionId === 1) {
+    // The Intro-specific message ("researchers will contact you") belongs to the original study; in a protocol research
+    // the participant simply goes back to the review app, which opens the next session (or says everything is done).
+    if (dbSessionId === 1 && !protocol) {
       this.showIntroDonePopup.set(true);
     } else {
       this.showSessionDonePopup.set(true);

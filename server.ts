@@ -4,7 +4,7 @@ import express from 'express';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import bootstrap from './src/main.server';
-import { getDb, isNonEmptyString, validateResultPayload, validatePostSessionPayload, toCsv, getTlxConfigForParticipant, resolveTlxLink, resolveTlxHandoff } from './api/_lib/db';
+import { getDb, isNonEmptyString, notifyProtocolEngine, validateResultPayload, validatePostSessionPayload, toCsv, getTlxConfigForParticipant, resolveTlxLink, resolveTlxHandoff } from './api/_lib/db';
 import { notifyEegMarker, notifyEegStop } from './api/_lib/eeg';
 
 // ── Rate limiting (in-memory, per IP) ─────────────────────────────────────────
@@ -206,6 +206,7 @@ export function app(): express.Express {
           "IsTimedOut" = EXCLUDED."IsTimedOut",
           "CompletedAt" = NOW()
       `;
+      await notifyProtocolEngine(sql, b.participantId);
       res.status(201).json({ ok: true });
     } catch (err) {
       console.error('[DB] save result error:', err);
@@ -256,8 +257,9 @@ export function app(): express.Express {
       const sql = getDb();
 
       const participantRows = await sql`
-        SELECT "IsTestParticipant", "TestFixedSessionId" FROM "Participant" WHERE "ParticipantId" = ${participantId} LIMIT 1
-      ` as { IsTestParticipant: boolean; TestFixedSessionId: number | null }[];
+        SELECT p."IsTestParticipant", p."TestFixedSessionId", (r."FlowMode" = 'PROTOCOL') AS "IsProtocol"
+      FROM "Participant" p LEFT JOIN "Research" r ON r."Id" = p."ResearchId" WHERE p."ParticipantId" = ${participantId} LIMIT 1
+      ` as { IsTestParticipant: boolean; TestFixedSessionId: number | null; IsProtocol: boolean | null }[];
       if (!participantRows.length) {
         res.status(404).json({ error: 'Participant not found' });
         return;
@@ -265,7 +267,7 @@ export function app(): express.Express {
 
       // A fixed test participant's IsFinished flag never changes — see api/db/session-finished.ts's
       // identical comment (this file mirrors it for local dev), including the cycling-test-participant case.
-      const { IsTestParticipant: isTest, TestFixedSessionId: fixedSessionId } = participantRows[0];
+      const { IsTestParticipant: isTest, TestFixedSessionId: fixedSessionId, IsProtocol: isProtocol } = participantRows[0];
       if (!isTest || fixedSessionId == null) {
         const rows = await sql`
           UPDATE "ParticipantSession"
@@ -284,7 +286,9 @@ export function app(): express.Express {
         // "004" only) is that participant's sole, terminal session — both stop recording.
         await notifyEegStop();
       }
-      res.json({ ok: true });
+      // A protocol research: tell the engine the session is finished so the step can complete and the next one can go out.
+      if (isProtocol) await notifyProtocolEngine(sql, participantId);
+      res.json({ ok: true, protocol: !!isProtocol });
     } catch (err) {
       console.error('[DB] session-finished error:', err);
       res.status(500).json({ error: 'Database error' });

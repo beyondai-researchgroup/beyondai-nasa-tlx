@@ -1,4 +1,4 @@
-import { getDb, validateResultPayload } from '../_lib/db.js';
+import { getDb, notifyProtocolEngine, validateResultPayload } from '../_lib/db.js';
 import { ApiRequest, ApiResponse, sendJson } from '../_lib/http.js';
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {
@@ -66,6 +66,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
         "IsTimedOut" = EXCLUDED."IsTimedOut",
         "CompletedAt" = NOW()
     `;
+    await notifyProtocolEngine(sql, b['participantId']);
     sendJson(res, 201, { ok: true });
   } catch (err) {
     console.error('[DB] save result error:', err);

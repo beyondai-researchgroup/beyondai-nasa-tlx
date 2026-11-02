@@ -96,12 +96,14 @@ export class DatabaseService {
   }
 
   /** Marks the study-flow session (ParticipantSession row) as finished. */
-  async markSessionFinished(participantId: string, sessionId: number): Promise<void> {
-    await firstValueFrom(
+  /** Returns whether the participant belongs to a protocol research (then even the Intro session returns to BeyondAI). */
+  async markSessionFinished(participantId: string, sessionId: number): Promise<{ protocol: boolean }> {
+    const res = await firstValueFrom(
       this.http
-        .post<void>('/api/db/session-finished', { participantId, sessionId })
+        .post<{ ok: boolean; protocol?: boolean }>('/api/db/session-finished', { participantId, sessionId })
         .pipe(timeout(REQUEST_TIMEOUT_MS))
     );
+    return { protocol: res?.protocol === true };
   }
 
   /**

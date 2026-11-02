@@ -218,6 +218,36 @@ export async function resolveTlxLink(sql: ReturnType<typeof neon>, token: string
   };
 }
 
+/**
+ * Research-protocol engine hook (2026-10): when a participant of a PROTOCOL research saves a TLX
+ * result, tell the engine so their next protocol step can go out right away. A strict no-op unless
+ * PROTOCOL_ENGINE_URL/PROTOCOL_ENGINE_SECRET are configured AND the participant's research is in
+ * PROTOCOL mode, so the classic study's flow is untouched. Best-effort: never fails the save.
+ * The participant is resolved by their bare ParticipantId, which is unambiguous here: the insert that
+ * just succeeded relies on a trigger that refuses an ambiguous id.
+ */
+export async function notifyProtocolEngine(sql: ReturnType<typeof neon>, participantId: unknown): Promise<void> {
+  const url = process.env['PROTOCOL_ENGINE_URL'];
+  const secret = process.env['PROTOCOL_ENGINE_SECRET'];
+  if (!url || !secret || typeof participantId !== 'string') return;
+  try {
+    const rows = (await sql`
+      SELECT p."Guid", r."FlowMode" FROM "Participant" p JOIN "Research" r ON r."Id" = p."ResearchId"
+      WHERE p."ParticipantId" = ${participantId}
+    `) as { Guid: string; FlowMode: string }[];
+    if (rows.length !== 1 || rows[0].FlowMode !== 'PROTOCOL') return;
+    const res = await fetch(`${url.replace(/\/$/, '')}/api/protocol-engine/advance`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Engine-Secret': secret },
+      body: JSON.stringify({ participantGuid: rows[0].Guid }),
+      signal: AbortSignal.timeout(15_000),
+    });
+    if (!res.ok) console.error('[nasa-tlx] protocol engine returned', res.status);
+  } catch (err) {
+    console.error('[nasa-tlx] protocol engine notify failed:', err);
+  }
+}
+
 export function isNonEmptyString(v: unknown, max: number): v is string {
   return typeof v === 'string' && v.trim().length > 0 && v.length <= max;
 }

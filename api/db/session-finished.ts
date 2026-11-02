@@ -1,4 +1,4 @@
-import { getDb, isNonEmptyString } from '../_lib/db.js';
+import { getDb, isNonEmptyString, notifyProtocolEngine } from '../_lib/db.js';
 import { notifyEegMarker, notifyEegStop } from '../_lib/eeg.js';
 import { ApiRequest, ApiResponse, sendJson } from '../_lib/http.js';
 
@@ -23,8 +23,9 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     const sql = getDb();
 
     const participantRows = (await sql`
-      SELECT "IsTestParticipant", "TestFixedSessionId" FROM "Participant" WHERE "ParticipantId" = ${participantId} LIMIT 1
-    `) as { IsTestParticipant: boolean; TestFixedSessionId: number | null }[];
+      SELECT p."IsTestParticipant", p."TestFixedSessionId", (r."FlowMode" = 'PROTOCOL') AS "IsProtocol"
+      FROM "Participant" p LEFT JOIN "Research" r ON r."Id" = p."ResearchId" WHERE p."ParticipantId" = ${participantId} LIMIT 1
+    `) as { IsTestParticipant: boolean; TestFixedSessionId: number | null; IsProtocol: boolean | null }[];
     if (!participantRows.length) {
       sendJson(res, 404, { error: 'Participant not found' });
       return;
@@ -35,7 +36,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     // A test participant with NO fixed session (e.g. 005) cycles through their own sessions instead,
     // so their flag is flipped like a real participant's; Code Review AI resets the whole cycle once
     // every session is finished.
-    const { IsTestParticipant: isTest, TestFixedSessionId: fixedSessionId } = participantRows[0];
+    const { IsTestParticipant: isTest, TestFixedSessionId: fixedSessionId, IsProtocol: isProtocol } = participantRows[0];
     if (!isTest || fixedSessionId == null) {
       const rows = (await sql`
         UPDATE "ParticipantSession"
@@ -54,7 +55,9 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       // "004" only) is that participant's sole, terminal session — both should stop recording.
       await notifyEegStop();
     }
-    sendJson(res, 200, { ok: true });
+    // A protocol research: tell the engine the session is finished so the step can complete and the next one can go out.
+    if (isProtocol) await notifyProtocolEngine(sql, participantId);
+    sendJson(res, 200, { ok: true, protocol: !!isProtocol });
   } catch (err) {
     console.error('[DB] session-finished error:', err);
     sendJson(res, 500, { error: 'Database error' });
