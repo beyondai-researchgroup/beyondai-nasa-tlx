@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TlxStateService } from '../services/tlx-state.service';
 import { TourService } from '../services/tour.service';
+import { BrandingService } from '../services/branding.service';
 
 interface ScaleInfo {
   nameKey: string;
@@ -22,6 +23,7 @@ export class InstructionsComponent {
   private state = inject(TlxStateService);
   private router = inject(Router);
   private tour = inject(TourService);
+  private branding = inject(BrandingService);
   private translate = inject(TranslateService);
 
   readonly scales: ScaleInfo[] = [
@@ -42,13 +44,14 @@ export class InstructionsComponent {
     // is used because the JSON translation file may not have finished loading yet this early.
     if (this.state.session()?.dbSessionId === 1 && !this.state.isTourShown('instructions')) {
       this.state.markTourShown('instructions');
-      this.translate.get(['TOUR.INSTR_TITLE', 'TOUR.INSTR_BODY']).subscribe(t => {
+      const bodyKey = this.branding.visible() ? 'TOUR.INSTR_BODY' : 'TOUR.INSTR_BODY_NEUTRAL';
+      this.translate.get(['TOUR.INSTR_TITLE', bodyKey]).subscribe(t => {
         this.tour.start([
           {
             target: '.scales-grid',
             placement: 'bottom',
             title: t['TOUR.INSTR_TITLE'],
-            body: t['TOUR.INSTR_BODY'],
+            body: t[bodyKey],
           },
         ]);
       });

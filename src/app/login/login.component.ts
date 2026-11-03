@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TlxStateService, SessionId } from '../services/tlx-state.service';
 import { DatabaseService } from '../services/database.service';
+import { BrandingService } from '../services/branding.service';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ export class LoginComponent {
   private state = inject(TlxStateService);
   private router = inject(Router);
   private db = inject(DatabaseService);
+  private branding = inject(BrandingService);
 
   readonly sessions: SessionId[] = ['Uvodna sesija', 'Sesija 1', 'Sesija 2'];
 
@@ -80,6 +82,7 @@ export class LoginComponent {
     // Structure comes from the participant's research config (BeyondAI Admin Dashboard's
     // Study Configuration page) now, not a fresh pair of checkboxes on this screen.
     const config = await this.db.getTlxConfig(participantId);
+    if (config.showBranding !== undefined) this.branding.set(config.showBranding !== false);
     this.state.setSession({
       sessionId: v.sessionId as SessionId,
       participantId,

@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { TlxStateService } from '../services/tlx-state.service';
 import { ThemeService } from '../services/theme.service';
 import { DatabaseService } from '../services/database.service';
+import { BrandingService } from '../services/branding.service';
 import { DB_SESSION_TO_TLX, TLX_LANG_KEY } from '../utils/study';
 
 /**
@@ -38,6 +39,7 @@ export class AutoStartComponent implements OnInit {
   private translate = inject(TranslateService);
   private themeService = inject(ThemeService);
   private db = inject(DatabaseService);
+  private branding = inject(BrandingService);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   async ngOnInit(): Promise<void> {
@@ -68,6 +70,7 @@ export class AutoStartComponent implements OnInit {
     }
 
     this.translate.use(result.lang);
+    this.branding.set(result.config.showBranding !== false);
     try { sessionStorage.setItem(TLX_LANG_KEY, result.lang); } catch { /* storage unavailable */ }
     this.themeService.setTheme(theme);
 
@@ -96,6 +99,7 @@ export class AutoStartComponent implements OnInit {
     }
 
     const config = await this.db.getTlxConfig(participantId);
+    if (config.showBranding !== undefined) this.branding.set(config.showBranding !== false);
     if (!config.isTestParticipant) {
       // Real participants can no longer reach /start with a bare participant id/session number —
       // only a valid handoff token (see startFromHandoffToken above).

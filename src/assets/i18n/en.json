@@ -131,7 +131,8 @@
     "SCALES_NEXT_TITLE": "Continuing",
     "SCALES_NEXT_BODY": "You need to move every slider at least once before the \"Next\" button becomes active.",
     "COMP_TITLE": "Factor comparison",
-    "COMP_BODY": "Here you choose which of two factors had a greater impact on your overall workload - click one of them. This repeats for a few pairs, and the result is used to calculate the weighted score."
+    "COMP_BODY": "Here you choose which of two factors had a greater impact on your overall workload - click one of them. This repeats for a few pairs, and the result is used to calculate the weighted score.",
+    "INSTR_BODY_NEUTRAL": "After every session, this is where you rate how demanding the task was. Click any card below for a more detailed description of that scale, then \"Next\" to continue."
   },
   "SCALE": {
     "MENTAL_DEMAND": {

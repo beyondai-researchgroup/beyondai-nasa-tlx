@@ -41,6 +41,8 @@ export interface TlxConfigDto {
   includeWeightings: boolean;
   timerEnabled: boolean;
   timerMinutes: number | null;
+  /** false = the researcher hides the BeyondAI logo / name from participants of this research. */
+  showBranding?: boolean;
   /** Participant.IsTestParticipant — defaults to false both when the participant genuinely isn't
    *  one AND on any fetch failure (fail-closed), since AutoStartComponent's legacy raw-param
    *  `/start` shape uses this field as its one authorization check. */
@@ -123,6 +125,7 @@ export class DatabaseService {
         includeWeightings: res.includeWeightings ?? true,
         timerEnabled: res.timerEnabled === true,
         timerMinutes: res.timerMinutes ?? null,
+        showBranding: res.showBranding,
         isTestParticipant: res.isTestParticipant === true,
       };
     } catch {
@@ -177,6 +180,7 @@ export class DatabaseService {
           includeWeightings: res.config.includeWeightings ?? true,
           timerEnabled: res.config.timerEnabled === true,
           timerMinutes: res.config.timerMinutes ?? null,
+          showBranding: res.config.showBranding,
           isTestParticipant: false,
         },
       };

@@ -47,6 +47,8 @@ export interface TlxConfig {
    *  timerMinutes is only meaningful when timerEnabled is true. */
   timerEnabled: boolean;
   timerMinutes: number | null;
+  /** Research.ShowBeyondAiBranding — false hides the BeyondAI logo / name from this research's participants. */
+  showBranding: boolean;
   /** Participant.IsTestParticipant — only meaningful (and only ever checked) for the legacy raw
    *  participantId/sessionId `/start` shape; a magic-link/handoff-token resolution already proves
    *  authorization on its own, so this is always false there. */
@@ -75,14 +77,14 @@ export async function getTlxConfigForParticipant(
   participantId: string
 ): Promise<TlxConfigResult> {
   const rows = (await sql`
-    SELECT r."TlxCalculateScores", r."TlxIncludeWeightings", r."TimerNasaTlxEnabled", r."TimerNasaTlxMinutes",
+    SELECT r."TlxCalculateScores", r."TlxIncludeWeightings", r."TimerNasaTlxEnabled", r."TimerNasaTlxMinutes", r."ShowBeyondAiBranding",
            p."IsTestParticipant"
     FROM "Participant" p
     JOIN "Research" r ON r."Id" = p."ResearchId"
     WHERE p."ParticipantId" = ${participantId}
   `) as {
     TlxCalculateScores: boolean; TlxIncludeWeightings: boolean; TimerNasaTlxEnabled: boolean;
-    TimerNasaTlxMinutes: number | null; IsTestParticipant: boolean;
+    TimerNasaTlxMinutes: number | null; IsTestParticipant: boolean; ShowBeyondAiBranding: boolean;
   }[];
 
   if (rows.length > 1) return { status: 'ambiguous' };
@@ -95,6 +97,7 @@ export async function getTlxConfigForParticipant(
       includeWeightings: row.TlxIncludeWeightings,
       timerEnabled: row.TimerNasaTlxEnabled === true,
       timerMinutes: row.TimerNasaTlxEnabled ? row.TimerNasaTlxMinutes : null,
+      showBranding: row.ShowBeyondAiBranding !== false,
       isTestParticipant: row.IsTestParticipant === true,
     },
   };
@@ -117,7 +120,7 @@ export type TlxHandoffResolveResult =
 export async function resolveTlxHandoff(sql: ReturnType<typeof neon>, token: string): Promise<TlxHandoffResolveResult> {
   const rows = (await sql`
     SELECT p."ParticipantId", p."Language", sat."StudySessionId", sat."ExpiresAt",
-           r."TlxCalculateScores", r."TlxIncludeWeightings", r."TimerNasaTlxEnabled", r."TimerNasaTlxMinutes",
+           r."TlxCalculateScores", r."TlxIncludeWeightings", r."TimerNasaTlxEnabled", r."TimerNasaTlxMinutes", r."ShowBeyondAiBranding",
            crt."Token" AS "CodeReviewToken", crt."ExpiresAt" AS "CodeReviewExpiresAt"
     FROM "SurveyAccessToken" sat
     JOIN "Participant" p ON p."Guid" = sat."ParticipantGuid"
@@ -127,7 +130,7 @@ export async function resolveTlxHandoff(sql: ReturnType<typeof neon>, token: str
     LIMIT 1
   `) as {
     ParticipantId: string; Language: string | null; StudySessionId: number | null; ExpiresAt: string;
-    TlxCalculateScores: boolean; TlxIncludeWeightings: boolean; TimerNasaTlxEnabled: boolean; TimerNasaTlxMinutes: number | null;
+    TlxCalculateScores: boolean; TlxIncludeWeightings: boolean; TimerNasaTlxEnabled: boolean; TimerNasaTlxMinutes: number | null; ShowBeyondAiBranding: boolean;
     CodeReviewToken: string | null; CodeReviewExpiresAt: string | null;
   }[];
 
@@ -151,6 +154,7 @@ export async function resolveTlxHandoff(sql: ReturnType<typeof neon>, token: str
       includeWeightings: row.TlxIncludeWeightings,
       timerEnabled: row.TimerNasaTlxEnabled === true,
       timerMinutes: row.TimerNasaTlxEnabled ? row.TimerNasaTlxMinutes : null,
+      showBranding: row.ShowBeyondAiBranding !== false,
       isTestParticipant: false,
     },
     codeReviewLinkToken,
@@ -176,7 +180,7 @@ export type TlxLinkResolveResult =
 export async function resolveTlxLink(sql: ReturnType<typeof neon>, token: string): Promise<TlxLinkResolveResult> {
   const rows = (await sql`
     SELECT sat."ParticipantGuid", sat."ExpiresAt", p."Language", r."TlxCalculateScores", r."TlxIncludeWeightings",
-           r."ConsentPortalActive", r."TimerNasaTlxEnabled", r."TimerNasaTlxMinutes"
+           r."ConsentPortalActive", r."TimerNasaTlxEnabled", r."TimerNasaTlxMinutes", r."ShowBeyondAiBranding"
     FROM "SurveyAccessToken" sat
     JOIN "Participant" p ON p."Guid" = sat."ParticipantGuid"
     JOIN "Research" r ON r."Id" = p."ResearchId"
@@ -184,7 +188,7 @@ export async function resolveTlxLink(sql: ReturnType<typeof neon>, token: string
     LIMIT 1
   `) as {
     ParticipantGuid: string; ExpiresAt: string; Language: string | null; TlxCalculateScores: boolean;
-    TlxIncludeWeightings: boolean; ConsentPortalActive: boolean; TimerNasaTlxEnabled: boolean; TimerNasaTlxMinutes: number | null;
+    TlxIncludeWeightings: boolean; ConsentPortalActive: boolean; TimerNasaTlxEnabled: boolean; TimerNasaTlxMinutes: number | null; ShowBeyondAiBranding: boolean;
   }[];
 
   if (!rows.length) return { status: 'not_found' };
@@ -213,6 +217,7 @@ export async function resolveTlxLink(sql: ReturnType<typeof neon>, token: string
       includeWeightings: row.TlxIncludeWeightings,
       timerEnabled: row.TimerNasaTlxEnabled === true,
       timerMinutes: row.TimerNasaTlxEnabled ? row.TimerNasaTlxMinutes : null,
+      showBranding: row.ShowBeyondAiBranding !== false,
       isTestParticipant: false,
     },
   };

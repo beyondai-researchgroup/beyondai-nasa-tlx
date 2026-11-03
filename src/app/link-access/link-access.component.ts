@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TlxStateService } from '../services/tlx-state.service';
 import { DatabaseService } from '../services/database.service';
+import { BrandingService } from '../services/branding.service';
 import { TLX_LANG_KEY } from '../utils/study';
 
 type LinkStatus = 'loading' | 'already' | 'error';
@@ -100,6 +101,7 @@ export class LinkAccessComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private db = inject(DatabaseService);
+  private branding = inject(BrandingService);
   private state = inject(TlxStateService);
   private translate = inject(TranslateService);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
@@ -118,6 +120,7 @@ export class LinkAccessComponent implements OnInit {
     }
 
     const result = await this.db.resolveLink(token);
+    if (result.ok && result.config.showBranding !== undefined) this.branding.set(result.config.showBranding !== false);
     if (result.ok) {
       this.translate.use(result.lang);
       try { sessionStorage.setItem(TLX_LANG_KEY, result.lang); } catch { /* storage unavailable */ }

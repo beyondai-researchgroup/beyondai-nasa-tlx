@@ -20,6 +20,8 @@ export interface TlxConfig {
   /** Per-app participant timer (2026-09-11) — timerMinutes only meaningful when timerEnabled. */
   timerEnabled: boolean;
   timerMinutes: number | null;
+  /** false = the researcher hides the BeyondAI logo / name from participants of this research. */
+  showBranding?: boolean;
   isTestParticipant: boolean;
 }
 

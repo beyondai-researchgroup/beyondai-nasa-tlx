@@ -131,7 +131,8 @@
     "SCALES_NEXT_TITLE": "Nastavak",
     "SCALES_NEXT_BODY": "Morate pomeriti svaki klizač bar jednom pre nego što dugme „Dalje\" postane aktivno.",
     "COMP_TITLE": "Poređenje faktora",
-    "COMP_BODY": "Ovde birate koji je od dva faktora više uticao na vaše ukupno opterećenje - kliknite na jedan od njih. Ovo se ponavlja za nekoliko parova, a rezultat se koristi za izračunavanje ponderisanog skora."
+    "COMP_BODY": "Ovde birate koji je od dva faktora više uticao na vaše ukupno opterećenje - kliknite na jedan od njih. Ovo se ponavlja za nekoliko parova, a rezultat se koristi za izračunavanje ponderisanog skora.",
+    "INSTR_BODY_NEUTRAL": "Nakon svake sesije, ovde ocenjujete koliko vam je zadatak bio zahtevan. Kliknite na bilo koju karticu ispod za detaljniji opis te skale, a zatim „Dalje\" da nastavite."
   },
   "SCALE": {
     "MENTAL_DEMAND": {
