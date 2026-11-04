@@ -46,7 +46,7 @@ export class AutoStartComponent implements OnInit {
     if (!this.isBrowser) return;
 
     const params = this.route.snapshot.queryParamMap;
-    const theme = params.get('theme') === 'light' ? 'light' : 'dark';
+    const theme = params.get('theme') === 'dark' ? 'dark' : 'light';
     const handoffToken = params.get('h')?.trim();
 
     if (handoffToken) {
